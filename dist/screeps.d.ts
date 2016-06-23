@@ -1408,6 +1408,15 @@ interface Room {
      */
     lookAtArea(top: number, left: number, bottom: number, right: number): LookAtResultMatrix;
     /**
+     * Get the list of objects at the specified room area. This method is more CPU efficient in comparison to multiple lookAt calls.
+     * @param top The top Y boundary of the area.
+     * @param left The left X boundary of the area.
+     * @param bottom The bottom Y boundary of the area.
+     * @param right The right X boundary of the area.
+     * @returns An object with all the objects in the specified area
+     */
+    lookAtArea(top: number, left: number, bottom: number, right: number, asArray: boolean): LookAtResult[];
+    /**
      * Get an object with the given type at the specified room position.
      * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain
      * @param x The X position.
