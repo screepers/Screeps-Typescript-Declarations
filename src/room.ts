@@ -3,7 +3,7 @@
  * An object representing the room in which your units and structures are in. It can be used to look around, find paths, etc. Every object in the room contains its linked Room instance in the room property.
  */
 interface Room {
-    
+
     prototype: Room;
     /**
      * The Controller structure of this room, if present, otherwise undefined.
@@ -125,6 +125,17 @@ interface Room {
      * @returns An object with all the objects in the specified area
      */
     lookAtArea(top: number, left: number, bottom: number, right: number): LookAtResultMatrix;
+
+    /**
+     * Get the list of objects at the specified room area. This method is more CPU efficient in comparison to multiple lookAt calls.
+     * @param top The top Y boundary of the area.
+     * @param left The left X boundary of the area.
+     * @param bottom The bottom Y boundary of the area.
+     * @param right The right X boundary of the area.
+     * @returns An object with all the objects in the specified area
+     */
+    lookAtArea(top: number, left: number, bottom: number, right: number, asArray : boolean): LookAtResult[];
+
     /**
      * Get an object with the given type at the specified room position.
      * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain

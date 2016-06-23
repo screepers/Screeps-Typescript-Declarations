@@ -1,14 +1,41 @@
 {
-    "compilerOptions": {
-	"module": "system",
-	"target": "es5",
-	"sourceMap": false,
-	"declaration": true,
-	"outFile": "./dist/screeps.ts"
-    },
-    "exclude": ["node_modules", "dist"],
-    "filesGlob": [
-	"./src/**/*.ts"
-    ]
-
+			"compilerOptions": {
+						"module": "system",
+						"target": "es5",
+						"sourceMap": false,
+						"declaration": true,
+						"outFile": "./dist/screeps.ts"
+			},
+			"exclude": [
+						"node_modules",
+						"dist"
+			],
+			"filesGlob": [
+						"./src/**/*.ts"
+			],
+			"files": [
+						"./src/constants.ts",
+						"./src/construction-site.ts",
+						"./src/core.ts",
+						"./src/creep.ts",
+						"./src/flag.ts",
+						"./src/game.ts",
+						"./src/helpers.ts",
+						"./src/map.ts",
+						"./src/market.ts",
+						"./src/memory.ts",
+						"./src/mineral.ts",
+						"./src/path-finder.ts",
+						"./src/raw-memory.ts",
+						"./src/resource.ts",
+						"./src/room-object.ts",
+						"./src/room-position.ts",
+						"./src/room.ts",
+						"./src/source.ts",
+						"./src/spawn.ts",
+						"./src/structure.ts"
+			],
+			"atom": {
+						"rewriteTsconfig": true
+			}
 }
