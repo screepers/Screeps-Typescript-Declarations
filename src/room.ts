@@ -134,7 +134,7 @@ interface Room {
      * @param right The right X boundary of the area.
      * @returns An object with all the objects in the specified area
      */
-    lookAtArea(top: number, left: number, bottom: number, right: number, asArray : boolean): LookAtResult[];
+    lookAtArea(top: number, left: number, bottom: number, right: number, asArray : boolean): any[];
 
     /**
      * Get an object with the given type at the specified room position.
