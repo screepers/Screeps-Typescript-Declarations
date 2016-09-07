@@ -1555,7 +1555,7 @@ declare class Room {
      * @returns An array with the objects found.
      */
     find<T>(type: number, opts?: {
-        filter: Object | Function | string;
+        filter: ((result: T | Object) => boolean) | Object | string;
     }): T[];
     /**
      * Find the exit direction en route to another room.

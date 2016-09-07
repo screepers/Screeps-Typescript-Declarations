@@ -79,7 +79,7 @@ declare class Room {
      * @param opts An object with additional options
      * @returns An array with the objects found.
      */
-    find<T>(type: number, opts?: {filter: Object | Function | string}): T[];
+    find<T>(type: number, opts?: {filter: ((result: T|Object) => boolean)|Object|string}): T[];
     /**
      * Find the exit direction en route to another room.
      * @param room Another room name or room object.
