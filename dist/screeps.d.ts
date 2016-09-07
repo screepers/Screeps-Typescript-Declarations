@@ -993,6 +993,8 @@ interface SurvivalGameInfo {
      */
     wave: number;
 }
+declare type __PathingAlgorithm = "astar" | "dijkstra" | string;
+declare type __LodashFilter<ItemType> = ((result: ItemType) => boolean) | Object | string;
 /**
  * A global object representing world map. Use it to navigate between rooms. The object is accessible via Game.map property.
  */
@@ -1342,8 +1344,8 @@ declare class RoomPosition {
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn>(type: number, opts?: FindPathOpts & {
-        filter?: ((result: TReturn) => boolean) | Object | string;
-        algorithm?: string;
+        filter?: __LodashFilter<TReturn>;
+        algorithm?: __PathingAlgorithm;
     }): TReturn | null;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
@@ -1351,8 +1353,8 @@ declare class RoomPosition {
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn extends TCallback, TCallback>(type: number, opts?: FindPathOpts & {
-        filter?: ((result: TCallback) => boolean) | Object | string;
-        algorithm?: string;
+        filter?: __LodashFilter<TCallback>;
+        algorithm?: __PathingAlgorithm;
     }): TReturn | null;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
@@ -1360,8 +1362,8 @@ declare class RoomPosition {
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn>(objects: TReturn[] | RoomPosition[], opts?: FindPathOpts & {
-        filter?: ((result: TReturn) => boolean) | Object | string;
-        algorithm?: string;
+        filter?: __LodashFilter<TReturn>;
+        algorithm?: __PathingAlgorithm;
     }): TReturn | null;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
@@ -1369,8 +1371,8 @@ declare class RoomPosition {
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn extends TCallback, TCallback>(objects: TCallback[] | RoomPosition[], opts?: FindPathOpts & {
-        filter?: ((result: TCallback) => boolean) | Object | string;
-        algorithm?: string;
+        filter?: __LodashFilter<TCallback>;
+        algorithm?: __PathingAlgorithm;
     }): TReturn | null;
     /**
      * Find an object with the shortest linear distance from the given position.
@@ -1378,7 +1380,7 @@ declare class RoomPosition {
      * @param opts
      */
     findClosestByRange<TReturn>(type: number, opts?: {
-        filter: ((result: TReturn) => boolean) | Object | string;
+        filter: __LodashFilter<TReturn>;
     }): TReturn | null;
     /**
      * Find an object with the shortest linear distance from the given position.
@@ -1386,7 +1388,7 @@ declare class RoomPosition {
      * @param opts
      */
     findClosestByRange<TReturn extends TCallback, TCallback>(type: number, opts?: {
-        filter: ((result: TCallback) => boolean) | Object | string;
+        filter: __LodashFilter<TCallback>;
     }): TReturn | null;
     /**
      * Find an object with the shortest linear distance from the given position.
@@ -1394,7 +1396,7 @@ declare class RoomPosition {
      * @param opts An object containing one of the following options: filter
      */
     findClosestByRange<TReturn>(objects: TReturn[] | RoomPosition[], opts?: {
-        filter: ((result: TReturn) => boolean) | Object | string;
+        filter: __LodashFilter<TReturn>;
     }): TReturn | null;
     /**
      * Find an object with the shortest linear distance from the given position.
@@ -1402,7 +1404,7 @@ declare class RoomPosition {
      * @param opts An object containing one of the following options: filter
      */
     findClosestByRange<TReturn extends TCallback, TCallback>(objects: TCallback[] | RoomPosition[], opts?: {
-        filter: ((result: TCallback) => boolean) | Object | string;
+        filter: __LodashFilter<TCallback>;
     }): TReturn | null;
     /**
      * Find all objects in the specified linear range.
@@ -1411,7 +1413,7 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn>(type: number, range: number, opts?: {
-        filter?: ((result: TReturn) => boolean) | Object | string;
+        filter?: __LodashFilter<TReturn>;
     }): TReturn[];
     /**
      * Find all objects in the specified linear range.
@@ -1420,7 +1422,7 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn extends TCallback, TCallback>(type: number, range: number, opts?: {
-        filter?: ((result: TCallback) => boolean) | Object | string;
+        filter?: __LodashFilter<TCallback>;
     }): TReturn[];
     /**
      * Find all objects in the specified linear range.
@@ -1429,7 +1431,7 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn>(objects: TReturn[] | RoomPosition[], range: number, opts?: {
-        filter?: ((result: TReturn) => boolean) | Object | string;
+        filter?: __LodashFilter<TReturn>;
     }): TReturn[];
     /**
      * Find all objects in the specified linear range.
@@ -1438,7 +1440,7 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn extends TCallback, TCallback>(objects: TCallback[] | RoomPosition[], range: number, opts?: {
-        filter?: ((result: TCallback) => boolean) | Object | string;
+        filter?: __LodashFilter<TCallback>;
     }): TReturn[];
     /**
      * Find an optimal path to the specified position using A* search algorithm. This method is a shorthand for Room.findPath. If the target is in another room, then the corresponding exit will be used as a target.
@@ -1608,7 +1610,7 @@ declare class Room {
      * @typedef TReturn the type of all objects to be returned, and all objects expected from the requested find type.
      */
     find<TReturn>(type: number, opts?: {
-        filter: ((result: TReturn) => boolean) | Object | string;
+        filter: __LodashFilter<TReturn>;
     }): TReturn[];
     /**
      * Find all objects of the specified type in the room.
@@ -1619,7 +1621,7 @@ declare class Room {
      * @typedef TCallback the common supertype of all objects expected from the requested find type.
      */
     find<TReturn extends TCallback, TCallback>(type: number, opts?: {
-        filter: ((result: TCallback) => boolean) | Object | string;
+        filter: __LodashFilter<TCallback>;
     }): TReturn[];
     /**
      * Find the exit direction en route to another room.

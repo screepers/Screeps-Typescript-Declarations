@@ -187,3 +187,6 @@ interface SurvivalGameInfo {
      */
     wave: number;
 }
+
+declare type __PathingAlgorithm = "astar"|"dijkstra"|string;//Ending with string to allow variable inputs without casting.
+declare type __LodashFilter<ItemType> = ((result: ItemType)=>boolean)|Object|string;

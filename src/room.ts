@@ -1,4 +1,3 @@
-// Updated 2016-02-05
 /**
  * An object representing the room in which your units and structures are in. It can be used to look around, find paths, etc. Every object in the room contains its linked Room instance in the room property.
  */
@@ -80,7 +79,7 @@ declare class Room {
      * @returns An array with the objects found.
      * @typedef TReturn the type of all objects to be returned, and all objects expected from the requested find type.
      */
-    find<TReturn>(type: number, opts?: {filter: ((result: TReturn)=>boolean)|Object|string}): TReturn[];
+    find<TReturn>(type: number, opts?: {filter: __LodashFilter<TReturn>}): TReturn[];
     /**
      * Find all objects of the specified type in the room.
      * @param type One of the following constants:FIND_CREEPS, FIND_MY_CREEPS, FIND_HOSTILE_CREEPS, FIND_MY_SPAWNS, FIND_HOSTILE_SPAWNS, FIND_SOURCES, FIND_SOURCES_ACTIVE, FIND_DROPPED_RESOURCES, FIND_DROPPED_ENERGY, FIND_STRUCTURES, FIND_MY_STRUCTURES, FIND_HOSTILE_STRUCTURES, FIND_FLAGS, FIND_CONSTRUCTION_SITES, FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT, FIND_EXIT
@@ -89,7 +88,7 @@ declare class Room {
      * @typedef TReturn the type of all objects to be returned.
      * @typedef TCallback the common supertype of all objects expected from the requested find type.
      */
-    find<TReturn extends TCallback, TCallback>(type: number, opts?: {filter: ((result: TCallback)=>boolean)|Object|string}): TReturn[];
+    find<TReturn extends TCallback, TCallback>(type: number, opts?: {filter: __LodashFilter<TCallback>}): TReturn[];
     /**
      * Find the exit direction en route to another room.
      * @param room Another room name or room object.
