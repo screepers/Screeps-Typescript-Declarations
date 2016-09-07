@@ -10,7 +10,7 @@ declare class RoomPosition {
      */
     //new(x: number, y: number, roomName: string): RoomPosition;
     constructor (x: number, y: number, roomName: string);
-    
+
     /**
      * The name of the room.
      */
@@ -35,34 +35,64 @@ declare class RoomPosition {
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      */
     createFlag(name?: string, color?: number, secondaryColor?: number): number;
+
+
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param type See Room.find
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn>(type: number, opts?: FindPathOpts & {filter?: ((result: TReturn)=>boolean)|Object|string, algorithm?: string}): TReturn | null;
+    /**
+     * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
+     * @param type See Room.find
+     * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
+     */
     findClosestByPath<TReturn extends TCallback, TCallback>(type: number, opts?: FindPathOpts & {filter?: ((result: TCallback)=>boolean)|Object|string, algorithm?: string}): TReturn | null;
+
+
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
     findClosestByPath<TReturn>(objects: TReturn[]|RoomPosition[], opts?: FindPathOpts & {filter?: ((result: TReturn)=>boolean)|Object|string, algorithm?: string}): TReturn | null;
+    /**
+     * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
+     * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
+     * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
+     */
     findClosestByPath<TReturn extends TCallback, TCallback>(objects: TCallback[]|RoomPosition[], opts?: FindPathOpts & {filter?: ((result: TCallback)=>boolean)|Object|string, algorithm?: string}): TReturn | null;
+
+
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param type See Room.find.
      * @param opts
      */
     findClosestByRange<TReturn>(type: number, opts?: {filter: ((result: TReturn)=>boolean)|Object|string }): TReturn | null;
+    /**
+     * Find an object with the shortest linear distance from the given position.
+     * @param type See Room.find.
+     * @param opts
+     */
     findClosestByRange<TReturn extends TCallback, TCallback>(type: number, opts?: {filter: ((result: TCallback)=>boolean)|Object|string }): TReturn | null;
+
+
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
      * @param opts An object containing one of the following options: filter
      */
     findClosestByRange<TReturn>(objects: TReturn[]|RoomPosition[], opts?: {filter: ((result: TReturn)=>boolean)|Object|string }): TReturn | null;
+    /**
+     * Find an object with the shortest linear distance from the given position.
+     * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
+     * @param opts An object containing one of the following options: filter
+     */
     findClosestByRange<TReturn extends TCallback, TCallback>(objects: TCallback[]|RoomPosition[], opts?: {filter: ((result: TCallback)=>boolean)|Object|string }): TReturn | null;
+
+
     /**
      * Find all objects in the specified linear range.
      * @param type See Room.find.
@@ -70,7 +100,15 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn>(type: number, range: number, opts?: {filter?: ((result: TReturn)=>boolean)|Object|string}): TReturn[];
+    /**
+     * Find all objects in the specified linear range.
+     * @param type See Room.find.
+     * @param range The range distance.
+     * @param opts See Room.find.
+     */
     findInRange<TReturn extends TCallback, TCallback>(type: number, range: number, opts?: {filter?: ((result: TCallback)=>boolean)|Object|string}): TReturn[];
+
+
     /**
      * Find all objects in the specified linear range.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
@@ -78,7 +116,15 @@ declare class RoomPosition {
      * @param opts See Room.find.
      */
     findInRange<TReturn>(objects: TReturn[]|RoomPosition[], range: number, opts?: {filter?: ((result: TReturn)=>boolean)|Object|string}): TReturn[];
+    /**
+     * Find all objects in the specified linear range.
+     * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
+     * @param range The range distance.
+     * @param opts See Room.find.
+     */
     findInRange<TReturn extends TCallback, TCallback>(objects: TCallback[]|RoomPosition[], range: number, opts?: {filter?: ((result: TCallback)=>boolean)|Object|string}): TReturn[];
+
+
     /**
      * Find an optimal path to the specified position using A* search algorithm. This method is a shorthand for Room.findPath. If the target is in another room, then the corresponding exit will be used as a target.
      * @param x X position in the room.
