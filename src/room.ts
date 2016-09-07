@@ -78,8 +78,11 @@ declare class Room {
      * @param type One of the following constants:FIND_CREEPS, FIND_MY_CREEPS, FIND_HOSTILE_CREEPS, FIND_MY_SPAWNS, FIND_HOSTILE_SPAWNS, FIND_SOURCES, FIND_SOURCES_ACTIVE, FIND_DROPPED_RESOURCES, FIND_DROPPED_ENERGY, FIND_STRUCTURES, FIND_MY_STRUCTURES, FIND_HOSTILE_STRUCTURES, FIND_FLAGS, FIND_CONSTRUCTION_SITES, FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT, FIND_EXIT
      * @param opts An object with additional options
      * @returns An array with the objects found.
+     * @typedef TReturn the type of all objects to be returned.
+     * @typedef TReturn the common supertype of all objects expected from the requested find type.
      */
-    find<T>(type: number, opts?: {filter: ((result: T|Object) => boolean)|Object|string}): T[];
+    find<TReturn>(type: number, opts?: {filter: ((result: TReturn)=>boolean)|Object|string}): TReturn[];
+    find<TReturn extends TCallback, TCallback>(type: number, opts?: {filter: ((result: TCallback)=>boolean)|Object|string}): TReturn[];
     /**
      * Find the exit direction en route to another room.
      * @param room Another room name or room object.
