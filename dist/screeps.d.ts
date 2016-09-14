@@ -330,6 +330,7 @@ declare var ORDER_BUY: string;
  * A site of a structure which is currently under construction.
  */
 interface ConstructionSite extends RoomObject {
+    readonly prototype: ConstructionSite;
     /**
      * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
      */
@@ -360,8 +361,7 @@ interface ConstructionSite extends RoomObject {
      */
     remove(): number;
 }
-interface ConstructionSiteConstructor {
-    new (id: string): ConstructionSite;
+interface ConstructionSiteConstructor extends _Constructor<ConstructionSite>, _ConstructorById<ConstructionSite> {
 }
 declare const ConstructionSite: ConstructionSiteConstructor;
 declare var Memory: Memory;
@@ -380,11 +380,13 @@ declare type Terminal = StructureTerminal;
 declare type Container = StructureContainer;
 declare type Tower = StructureTower;
 interface Storage extends StructureStorage {
+    readonly prototype: StructureStorage;
 }
 /**
  * Creeps are your units. Creeps can move, harvest energy, construct structures, attack another creeps, and perform other actions. Each creep consists of up to 50 body parts with the following possible types:
  */
 interface Creep extends RoomObject {
+    readonly prototype: Creep;
     /**
      * An array describing the creep’s body. Each element contains the following properties:
      * type: string
@@ -591,13 +593,14 @@ interface Creep extends RoomObject {
      */
     withdraw(target: Structure, resourceType: string, amount?: number): number;
 }
-interface CreepConstructor {
+interface CreepConstructor extends _Constructor<Creep>, _ConstructorById<Creep> {
 }
 declare const Creep: CreepConstructor;
 /**
  * A flag. Flags can be used to mark particular spots in a room. Flags are visible to their owners only.
  */
 interface Flag extends RoomObject {
+    readonly prototype: Flag;
     /**
      * Flag color. One of the following constants: COLOR_WHITE, COLOR_GREY, COLOR_RED, COLOR_PURPLE, COLOR_BLUE, COLOR_CYAN, COLOR_GREEN, COLOR_YELLOW, COLOR_ORANGE, COLOR_BROWN
      */
@@ -618,7 +621,7 @@ interface Flag extends RoomObject {
      * Remove the flag.
      * @returns Result Code: OK
      */
-    remove(): void;
+    remove(): number;
     /**
      * Set new color of the flag.
      * @param color One of the following constants: COLOR_WHITE, COLOR_GREY, COLOR_RED, COLOR_PURPLE, COLOR_BLUE, COLOR_CYAN, COLOR_GREEN, COLOR_YELLOW, COLOR_ORANGE, COLOR_BROWN
@@ -642,7 +645,9 @@ interface Flag extends RoomObject {
         pos: RoomPosition;
     }): number;
 }
-interface FlagConstructor {
+interface FlagConstructor extends _Constructor<Flag> {
+    new (name: string, color: number, secondaryColor: number, roomName: string, x: number, y: number): Flag;
+    (name: string, color: number, secondaryColor: number, roomName: string, x: number, y: number): Flag;
 }
 declare const Flag: FlagConstructor;
 /**
@@ -889,6 +894,13 @@ interface SurvivalGameInfo {
      */
     wave: number;
 }
+interface _Constructor<T> {
+    readonly prototype: T;
+}
+interface _ConstructorById<T> extends _Constructor<T> {
+    new (id: string): T;
+    (id: string): T;
+}
 /**
  * A global object representing world map. Use it to navigate between rooms. The object is accessible via Game.map property.
  */
@@ -1066,7 +1078,7 @@ interface Mineral extends RoomObject {
     /**
      * The prototype is stored in the Mineral.prototype global object. You can use it to extend game objects behaviour globally.
      */
-    prototype: Mineral;
+    readonly prototype: Mineral;
     /**
      * The remaining amount of resources.
      */
@@ -1084,10 +1096,14 @@ interface Mineral extends RoomObject {
      */
     ticksToRegeneration: number;
 }
+interface MineralConstructor extends _Constructor<Mineral>, _ConstructorById<Mineral> {
+}
+declare const Mineral: MineralConstructor;
 /**
  * A nuke landing position. This object cannot be removed or modified. You can find incoming nukes in the room using the FIND_NUKES constant.
  */
 interface Nuke extends RoomObject {
+    readonly prototype: Nuke;
     /**
      * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
      */
@@ -1245,6 +1261,7 @@ interface RawMemory {
  * A dropped piece of resource. It will decay after a while if not picked up. Dropped resource pile decays for ceil(amount/1000) units per tick.
  */
 interface Resource extends RoomObject {
+    readonly prototype: Resource;
     /**
      * The amount of resource units containing.
      */
@@ -1267,7 +1284,7 @@ declare const Resource: ResourceConstructor;
  * are derived from RoomObject.
  */
 interface RoomObject {
-    prototype: RoomObject;
+    readonly prototype: RoomObject;
     /**
      * An object representing the position of this object in the room.
      */
@@ -1279,13 +1296,16 @@ interface RoomObject {
      */
     room: Room;
 }
-interface RoomObjectConstructor {
+interface RoomObjectConstructor extends _Constructor<RoomObject> {
+    new (x: number, y: number, roomName: string): RoomObject;
+    (x: number, y: number, roomName: string): RoomObject;
 }
 declare const RoomObject: RoomObjectConstructor;
 /**
  * An object representing the specified position in the room. Every object in the room contains RoomPosition as the pos property. The position object of a custom location can be obtained using the Room.getPositionAt() method or using the constructor.
  */
 interface RoomPosition {
+    readonly prototype: RoomPosition;
     /**
      * The name of the room.
      */
@@ -1445,7 +1465,7 @@ interface RoomPosition {
      */
     lookFor<T>(type: string): T[];
 }
-interface RoomPositionConstructor {
+interface RoomPositionConstructor extends _Constructor<RoomPosition> {
     /**
      * You can create new RoomPosition object using its constructor.
      * @param x X position in the room.
@@ -1453,12 +1473,14 @@ interface RoomPositionConstructor {
      * @param roomName The room name.
      */
     new (x: number, y: number, roomName: string): RoomPosition;
+    (x: number, y: number, roomName: string): RoomPosition;
 }
 declare const RoomPosition: RoomPositionConstructor;
 /**
  * An object representing the room in which your units and structures are in. It can be used to look around, find paths, etc. Every object in the room contains its linked Room instance in the room property.
  */
 interface Room {
+    readonly prototype: Room;
     /**
      * The Controller structure of this room, if present, otherwise undefined.
      */
@@ -1628,7 +1650,7 @@ interface Source extends RoomObject {
     /**
      * The prototype is stored in the Source.prototype global object. You can use it to extend game objects behaviour globally:
      */
-    prototype: Source;
+    readonly prototype: Source;
     /**
      * The remaining amount of energy.
      */
@@ -1646,14 +1668,14 @@ interface Source extends RoomObject {
      */
     ticksToRegeneration: number;
 }
-interface SourceConstructor {
-    new (id: string): Source;
+interface SourceConstructor extends _Constructor<Source>, _ConstructorById<Source> {
 }
 declare const Source: SourceConstructor;
 /**
  * Spawns are your colony centers. You can transfer energy into it and create new creeps using createCreep() method.
  */
 interface StructureSpawn extends OwnedStructure {
+    readonly prototype: StructureSpawn;
     /**
      * The amount of energy containing in the spawn.
      */
@@ -1763,17 +1785,18 @@ interface StructureSpawn extends OwnedStructure {
      */
     transferEnergy(target: Creep, amount?: number): number;
 }
-interface Spawn extends StructureSpawn {
-}
-interface StructureSpawnConstructor {
-    new (id: string): StructureSpawn;
+interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _ConstructorById<StructureSpawn> {
 }
 declare const StructureSpawn: StructureSpawnConstructor;
+interface Spawn extends StructureSpawn {
+    readonly prototype: StructureSpawn;
+}
 declare const Spawn: StructureSpawnConstructor;
 /**
  * Parent object for structure classes
  */
 interface Structure extends RoomObject {
+    readonly prototype: Structure;
     /**
      * The current amount of hit points of the structure.
      */
@@ -1804,8 +1827,7 @@ interface Structure extends RoomObject {
      */
     notifyWhenAttacked(enabled: boolean): number;
 }
-interface StructureConstructor {
-    new (id: string): Structure;
+interface StructureConstructor extends _Constructor<Structure>, _ConstructorById<Structure> {
 }
 declare const Structure: StructureConstructor;
 /**
@@ -1813,6 +1835,7 @@ declare const Structure: StructureConstructor;
  * found using `FIND_MY_STRUCTURES` and `FIND_HOSTILE_STRUCTURES` constants.
  */
 interface OwnedStructure extends Structure {
+    readonly prototype: OwnedStructure;
     /**
      * Whether this is your own structure. Walls and roads don't have this property as they are considered neutral structures.
      */
@@ -1822,8 +1845,7 @@ interface OwnedStructure extends Structure {
      */
     owner: Owner;
 }
-interface OwnedStructureConstructor {
-    new (id: string): OwnedStructure;
+interface OwnedStructureConstructor extends _Constructor<OwnedStructure>, _ConstructorById<OwnedStructure> {
 }
 declare const OwnedStructure: OwnedStructureConstructor;
 /**
@@ -1832,6 +1854,7 @@ declare const OwnedStructure: OwnedStructureConstructor;
  * property.
  */
 interface StructureController extends OwnedStructure {
+    readonly prototype: StructureController;
     /**
      * Current controller level, from 0 to 8.
      */
@@ -1861,8 +1884,7 @@ interface StructureController extends OwnedStructure {
      */
     unclaim(): number;
 }
-interface StructureControllerConstructor {
-    new (id: string): StructureController;
+interface StructureControllerConstructor extends _Constructor<StructureController>, _ConstructorById<StructureController> {
 }
 declare const StructureController: StructureControllerConstructor;
 /**
@@ -1871,6 +1893,7 @@ declare const StructureController: StructureControllerConstructor;
  * of distance.
  */
 interface StructureExtension extends OwnedStructure {
+    readonly prototype: StructureExtension;
     /**
      * The amount of energy containing in the extension.
      */
@@ -1886,14 +1909,14 @@ interface StructureExtension extends OwnedStructure {
      */
     transferEnergy(target: Creep, amount?: number): number;
 }
-interface StructureExtensionConstructor {
-    new (id: string): StructureExtension;
+interface StructureExtensionConstructor extends _Constructor<StructureExtension>, _ConstructorById<StructureExtension> {
 }
 declare const StructureExtension: StructureExtensionConstructor;
 /**
  * Remotely transfers energy to another Link in the same room.
  */
 interface StructureLink extends OwnedStructure {
+    readonly prototype: StructureLink;
     /**
      * The amount of game ticks the link has to wait until the next transfer is possible.
      */
@@ -1913,8 +1936,7 @@ interface StructureLink extends OwnedStructure {
      */
     transferEnergy(target: Creep | StructureLink, amount?: number): number;
 }
-interface StructureLinkConstructor {
-    new (id: string): StructureLink;
+interface StructureLinkConstructor extends _Constructor<StructureLink>, _ConstructorById<StructureLink> {
 }
 declare const StructureLink: StructureLinkConstructor;
 /**
@@ -1922,33 +1944,34 @@ declare const StructureLink: StructureLinkConstructor;
  * and minerals in some rooms. This structure cannot be destroyed.
  */
 interface StructureKeeperLair extends OwnedStructure {
+    readonly prototype: StructureKeeperLair;
     /**
      * Time to spawning of the next Source Keeper.
      */
     ticksToSpawn: number | undefined;
 }
-interface StructureKeeperLairConstructor {
-    new (id: string): StructureKeeperLair;
+interface StructureKeeperLairConstructor extends _Constructor<StructureKeeperLair>, _ConstructorById<StructureKeeperLair> {
 }
 declare const StructureKeeperLair: StructureKeeperLairConstructor;
 /**
  * Provides visibility into a distant room from your script.
  */
 interface StructureObserver extends OwnedStructure {
+    readonly prototype: StructureObserver;
     /**
      * Provide visibility into a distant room from your script. The target room object will be available on the next tick. The maximum range is 5 rooms.
      * @param roomName
      */
     observeRoom(roomName: string): number;
 }
-interface StructureObserverConstructor {
-    new (id: string): StructureObserver;
+interface StructureObserverConstructor extends _Constructor<StructureObserver>, _ConstructorById<StructureObserver> {
 }
 declare const StructureObserver: StructureObserverConstructor;
 /**
  *
  */
 interface StructurePowerBank extends OwnedStructure {
+    readonly prototype: StructurePowerBank;
     /**
      * The amount of power containing.
      */
@@ -1958,8 +1981,7 @@ interface StructurePowerBank extends OwnedStructure {
      */
     ticksToDecay: number;
 }
-interface StructurePowerBankConstructor {
-    new (id: string): StructurePowerBank;
+interface StructurePowerBankConstructor extends _Constructor<StructurePowerBank>, _ConstructorById<StructurePowerBank> {
 }
 declare const StructurePowerBank: StructurePowerBankConstructor;
 /**
@@ -1967,6 +1989,7 @@ declare const StructurePowerBank: StructurePowerBankConstructor;
  * destroying the structure. Hits the attacker creep back on each attack.
  */
 interface StructurePowerSpawn extends OwnedStructure {
+    readonly prototype: StructurePowerSpawn;
     /**
      * The amount of energy containing in this structure.
      */
@@ -1999,8 +2022,7 @@ interface StructurePowerSpawn extends OwnedStructure {
      */
     transferEnergy(target: Creep, amount?: number): number;
 }
-interface StructurePowerSpawnConstructor {
-    new (id: string): StructurePowerSpawn;
+interface StructurePowerSpawnConstructor extends _Constructor<StructurePowerSpawn>, _ConstructorById<StructurePowerSpawn> {
 }
 declare const StructurePowerSpawn: StructurePowerSpawnConstructor;
 /**
@@ -2008,6 +2030,7 @@ declare const StructurePowerSpawn: StructurePowerSpawnConstructor;
  * the same tile. Can be used as a controllable gate.
  */
 interface StructureRampart extends OwnedStructure {
+    readonly prototype: StructureRampart;
     /**
      * The amount of game ticks when this rampart will lose some hit points.
      */
@@ -2022,8 +2045,7 @@ interface StructureRampart extends OwnedStructure {
      */
     setPublic(isPublic: boolean): any;
 }
-interface StructureRampartConstructor {
-    new (id: string): StructureRampart;
+interface StructureRampartConstructor extends _Constructor<StructureRampart>, _ConstructorById<StructureRampart> {
 }
 declare const StructureRampart: StructureRampartConstructor;
 /**
@@ -2031,13 +2053,13 @@ declare const StructureRampart: StructureRampartConstructor;
  * `MOVE` body parts.
  */
 interface StructureRoad extends Structure {
+    readonly prototype: StructureRoad;
     /**
      * The amount of game ticks when this road will lose some hit points.
      */
     ticksToDecay: number;
 }
-interface StructureRoadConstructor {
-    new (id: string): StructureRoad;
+interface StructureRoadConstructor extends _Constructor<StructureRoad>, _ConstructorById<StructureRoad> {
 }
 declare const StructureRoad: StructureRoadConstructor;
 /**
@@ -2045,6 +2067,7 @@ declare const StructureRoad: StructureRoadConstructor;
  * per room is allowed that can be addressed by `Room.storage` property.
  */
 interface StructureStorage extends OwnedStructure {
+    readonly prototype: StructureStorage;
     /**
      * An object with the storage contents.
      */
@@ -2068,8 +2091,7 @@ interface StructureStorage extends OwnedStructure {
      */
     transferEnergy(target: Creep, amount?: number): number;
 }
-interface StructureStorageConstructor {
-    new (id: string): StructureStorage;
+interface StructureStorageConstructor extends _Constructor<StructureStorage>, _ConstructorById<StructureStorage> {
 }
 declare const StructureStorage: StructureStorageConstructor;
 /**
@@ -2078,6 +2100,7 @@ declare const StructureStorage: StructureStorageConstructor;
  * distance. Each action consumes energy.
  */
 interface StructureTower extends OwnedStructure {
+    readonly prototype: StructureTower;
     /**
      * The amount of energy containing in this structure.
      */
@@ -2108,36 +2131,36 @@ interface StructureTower extends OwnedStructure {
      */
     transferEnergy(target: Creep, amount?: number): number;
 }
-interface StructureTowerConstructor {
-    new (id: string): StructureTower;
+interface StructureTowerConstructor extends _Constructor<StructureTower>, _ConstructorById<StructureTower> {
 }
 declare const StructureTower: StructureTowerConstructor;
 /**
  * Blocks movement of all creeps.
  */
 interface StructureWall extends Structure {
+    readonly prototype: StructureWall;
     /**
      * The amount of game ticks when the wall will disappear (only for automatically placed border walls at the start of the game).
      */
     ticksToLive: number;
 }
-interface StructureWallConstructor {
-    new (id: string): StructureWall;
+interface StructureWallConstructor extends _Constructor<StructureWall>, _ConstructorById<StructureWall> {
 }
 declare const StructureWall: StructureWallConstructor;
 /**
  * Allows to harvest mineral deposits.
  */
 interface StructureExtractor extends OwnedStructure {
+    readonly prototype: StructureExtractor;
 }
-interface StructureExtractorConstructor {
-    new (id: string): StructureExtractor;
+interface StructureExtractorConstructor extends _Constructor<StructureExtractor>, _ConstructorById<StructureExtractor> {
 }
 declare const StructureExtractor: StructureExtractorConstructor;
 /**
  * Produces mineral compounds from base minerals and boosts creeps.
  */
 interface StructureLab extends OwnedStructure {
+    readonly prototype: StructureLab;
     /**
      * The amount of game ticks the lab has to wait until the next reaction is possible.
      */
@@ -2182,14 +2205,14 @@ interface StructureLab extends OwnedStructure {
      */
     transfer(target: Creep, resourceType: string, amount?: number): number;
 }
-interface StructureLabConstructor {
-    new (id: string): StructureLab;
+interface StructureLabConstructor extends _Constructor<StructureLab>, _ConstructorById<StructureLab> {
 }
 declare const StructureLab: StructureLabConstructor;
 /**
  * Sends any resources to a Terminal in another room.
  */
 interface StructureTerminal extends OwnedStructure {
+    readonly prototype: StructureTerminal;
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
@@ -2214,14 +2237,14 @@ interface StructureTerminal extends OwnedStructure {
      */
     transfer(target: Creep, resourceType: String, amount?: number): number;
 }
-interface StructureTerminalConstructor {
-    new (id: string): StructureTerminal;
+interface StructureTerminalConstructor extends _Constructor<StructureTerminal>, _ConstructorById<StructureTerminal> {
 }
 declare const StructureTerminal: StructureTerminalConstructor;
 /**
  * Contains up to 2,000 resource units. Can be constructed in neutral rooms. Decays for 5,000 hits per 100 ticks.
  */
 interface StructureContainer extends Structure {
+    readonly prototype: StructureContainer;
     /**
      * An object with the structure contents. Each object key is one of the RESOURCE_* constants, values are resources
      * amounts. Use _.sum(structure.store) to get the total amount of contents
@@ -2239,8 +2262,7 @@ interface StructureContainer extends Structure {
      */
     transfer(target: Creep, resourceType: string, amount?: number): number;
 }
-interface StructureContainerConstructor {
-    new (id: string): StructureContainer;
+interface StructureContainerConstructor extends _Constructor<StructureContainer>, _ConstructorById<StructureContainer> {
 }
 declare const StructureContainer: StructureContainerConstructor;
 /**
@@ -2251,6 +2273,7 @@ declare const StructureContainer: StructureContainerConstructor;
  * be launched from or to novice rooms.
  */
 interface StructureNuker extends OwnedStructure {
+    readonly prototype: StructureNuker;
     /**
      * The amount of energy contained in this structure.
      */
@@ -2277,8 +2300,7 @@ interface StructureNuker extends OwnedStructure {
      */
     launchNuke(pos: RoomPosition): number;
 }
-interface StructureNukerConstructor {
-    new (id: string): StructureNuker;
+interface StructureNukerConstructor extends _Constructor<StructureNuker>, _ConstructorById<StructureNuker> {
 }
 declare const StructureNuker: StructureNukerConstructor;
 /**
@@ -2287,6 +2309,7 @@ declare const StructureNuker: StructureNukerConstructor;
  * Portals appear randomly in the central room of each sector.
  */
 interface StructurePortal extends Structure {
+    readonly prototype: StructurePortal;
     /**
      * The position object in the destination room.
      */
@@ -2296,7 +2319,6 @@ interface StructurePortal extends Structure {
      */
     ticksToDecay: number;
 }
-interface StructurePortalConstructor {
-    new (id: string): StructurePortal;
+interface StructurePortalConstructor extends _Constructor<StructurePortal>, _ConstructorById<StructurePortal> {
 }
 declare const StructurePortal: StructurePortalConstructor;

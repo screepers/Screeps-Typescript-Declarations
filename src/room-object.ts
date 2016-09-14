@@ -4,7 +4,7 @@
  */
 
 interface RoomObject {
-    prototype: RoomObject;
+    readonly prototype: RoomObject;
     /**
      * An object representing the position of this object in the room.
      */
@@ -17,8 +17,9 @@ interface RoomObject {
     room: Room;
 }
 
-interface RoomObjectConstructor {
-    //No accessible constructor
+interface RoomObjectConstructor extends _Constructor<RoomObject> {
+    new (x: number, y: number, roomName: string): RoomObject;
+    (x: number, y: number, roomName: string): RoomObject;
 }
 
 declare const RoomObject: RoomObjectConstructor;

@@ -2,6 +2,8 @@
  * An object representing the specified position in the room. Every object in the room contains RoomPosition as the pos property. The position object of a custom location can be obtained using the Room.getPositionAt() method or using the constructor.
  */
 interface RoomPosition {
+    readonly prototype: RoomPosition;
+
     /**
      * The name of the room.
      */
@@ -138,7 +140,7 @@ interface RoomPosition {
     lookFor<T>(type: string): T[];
 }
 
-interface RoomPositionConstructor {
+interface RoomPositionConstructor extends _Constructor<RoomPosition> {
     /**
      * You can create new RoomPosition object using its constructor.
      * @param x X position in the room.
@@ -146,6 +148,7 @@ interface RoomPositionConstructor {
      * @param roomName The room name.
      */
     new (x: number, y: number, roomName: string): RoomPosition;
+    (x: number, y: number, roomName: string): RoomPosition;
 }
 
 declare const RoomPosition: RoomPositionConstructor;

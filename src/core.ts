@@ -14,5 +14,6 @@ type Terminal = StructureTerminal;
 type Container = StructureContainer;
 type Tower = StructureTower;
 interface Storage extends StructureStorage {
+  readonly prototype: StructureStorage;
 }
 

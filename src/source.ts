@@ -6,7 +6,7 @@ interface Source extends RoomObject {
     /**
      * The prototype is stored in the Source.prototype global object. You can use it to extend game objects behaviour globally:
      */
-    prototype: Source;
+    readonly prototype: Source;
     /**
      * The remaining amount of energy.
      */
@@ -25,8 +25,7 @@ interface Source extends RoomObject {
     ticksToRegeneration: number;
 }
 
-interface SourceConstructor {
-    new (id: string): Source;
+interface SourceConstructor extends _Constructor<Source>, _ConstructorById<Source> {
 }
 
 declare const Source: SourceConstructor;
