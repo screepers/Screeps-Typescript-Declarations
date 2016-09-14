@@ -2,13 +2,13 @@
 /**
  * A global object representing world map. Use it to navigate between rooms. The object is accessible via Game.map property.
  */
-declare class GameMap {
+interface GameMap {
     /**
      * List all exits available from the room with the given name.
      * @param roomName The room name.
      * @returns The exits information or null if the room not found.
      */
-    describeExits(roomName: string): {"1": string, "3": string, "5": string, "7": string};
+    describeExits(roomName: string): { "1": string, "3": string, "5": string, "7": string };
     /**
      * Find the exit direction from the given room en route to another room.
      * @param fromRoom Start room name or room object.
@@ -18,7 +18,7 @@ declare class GameMap {
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string|Room, toRoom: string|Room): string|number;
+    findExit(fromRoom: string | Room, toRoom: string | Room): string | number;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
@@ -60,3 +60,5 @@ declare class GameMap {
      */
     isRoomProtected(roomName: string): boolean;
 }
+
+//No static is available

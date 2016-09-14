@@ -3,7 +3,7 @@
  * are derived from RoomObject.
  */
 
-declare class RoomObject {
+interface RoomObject {
     prototype: RoomObject;
     /**
      * An object representing the position of this object in the room.
@@ -16,3 +16,9 @@ declare class RoomObject {
      */
     room: Room;
 }
+
+interface RoomObjectConstructor {
+    //No accessible constructor
+}
+
+declare const RoomObject: RoomObjectConstructor;

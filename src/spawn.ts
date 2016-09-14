@@ -2,7 +2,7 @@
 /**
  * Spawns are your colony centers. You can transfer energy into it and create new creeps using createCreep() method.
  */
-declare class Spawn extends OwnedStructure{
+interface StructureSpawn extends OwnedStructure {
     /**
      * The amount of energy containing in the spawn.
      */
@@ -57,7 +57,7 @@ declare class Spawn extends OwnedStructure{
      * @param needTime Time needed in total to complete the spawning.
      * @param remainingTime Remaining time to go.
      */
-    spawning: {name: string, needTime: number, remainingTime: number};
+    spawning: { name: string, needTime: number, remainingTime: number };
 
     /**
      * Check if a creep can be created.
@@ -110,5 +110,13 @@ declare class Spawn extends OwnedStructure{
     transferEnergy(target: Creep, amount?: number): number;
 }
 
-declare class StructureSpawn extends Spawn {
+interface Spawn extends StructureSpawn {
+    //Legacy Alias
 }
+
+interface StructureSpawnConstructor {
+    new (id: string): StructureSpawn;
+}
+
+declare const StructureSpawn: StructureSpawnConstructor;
+declare const Spawn: StructureSpawnConstructor;//Legacy Alias

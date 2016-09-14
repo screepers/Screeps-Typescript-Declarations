@@ -1,7 +1,7 @@
 /**
  * A flag. Flags can be used to mark particular spots in a room. Flags are visible to their owners only.
  */
-declare class Flag extends RoomObject{
+interface Flag extends RoomObject {
     /**
      * Flag color. One of the following constants: COLOR_WHITE, COLOR_GREY, COLOR_RED, COLOR_PURPLE, COLOR_BLUE, COLOR_CYAN, COLOR_GREEN, COLOR_YELLOW, COLOR_ORANGE, COLOR_BROWN
      */
@@ -44,3 +44,9 @@ declare class Flag extends RoomObject{
      */
     setPosition(pos: RoomPosition|{pos: RoomPosition}): number;
 }
+
+interface FlagConstructor {
+    //No accessible constructor
+}
+
+declare const Flag: FlagConstructor;
