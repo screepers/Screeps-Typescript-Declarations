@@ -379,8 +379,9 @@ declare type Rampart = StructureRampart;
 declare type Terminal = StructureTerminal;
 declare type Container = StructureContainer;
 declare type Tower = StructureTower;
+declare type Spawn = StructureSpawn;
+declare const Spawn: StructureSpawnConstructor;
 interface Storage extends StructureStorage {
-    readonly prototype: StructureStorage;
 }
 /**
  * Creeps are your units. Creeps can move, harvest energy, construct structures, attack another creeps, and perform other actions. Each creep consists of up to 50 body parts with the following possible types:
@@ -1788,10 +1789,6 @@ interface StructureSpawn extends OwnedStructure {
 interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _ConstructorById<StructureSpawn> {
 }
 declare const StructureSpawn: StructureSpawnConstructor;
-interface Spawn extends StructureSpawn {
-    readonly prototype: StructureSpawn;
-}
-declare const Spawn: StructureSpawnConstructor;
 /**
  * Parent object for structure classes
  */

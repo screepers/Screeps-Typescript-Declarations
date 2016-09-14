@@ -13,7 +13,6 @@ type Rampart = StructureRampart;
 type Terminal = StructureTerminal;
 type Container = StructureContainer;
 type Tower = StructureTower;
-interface Storage extends StructureStorage {
-  readonly prototype: StructureStorage;
-}
-
+type Spawn = StructureSpawn;//Legacy Alias
+declare const Spawn: StructureSpawnConstructor;
+interface Storage extends StructureStorage { }//Legacy Alias

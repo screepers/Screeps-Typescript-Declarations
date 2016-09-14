@@ -117,9 +117,3 @@ interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _Const
 }
 
 declare const StructureSpawn: StructureSpawnConstructor;
-
-interface Spawn extends StructureSpawn {
-    //Legacy Alias
-    readonly prototype: StructureSpawn;
-}
-declare const Spawn: StructureSpawnConstructor;//Legacy Alias
