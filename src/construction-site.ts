@@ -25,14 +25,14 @@ interface ConstructionSite extends RoomObject {
      */
     progressTotal: number;
     /**
-     * One of the following constants: STRUCTURE_EXTENSION, STRUCTURE_RAMPART, STRUCTURE_ROAD, STRUCTURE_SPAWN, STRUCTURE_WALL, STRUCTURE_LINK
+     * One of the STRUCTURE_* constants.
      */
-    structureType: string;
+    structureType: StructureConst;
     /**
      * Remove the construction site.
      * @returns Result Code: OK, ERR_NOT_OWNER
      */
-    remove(): number;
+    remove(): ReturnConstOk | ReturnConstErrNotOwner;
 }
 
 interface ConstructionSiteConstructor extends _Constructor<ConstructionSite>, _ConstructorById<ConstructionSite> {

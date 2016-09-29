@@ -8,7 +8,7 @@ interface GameMap {
      * @param roomName The room name.
      * @returns The exits information or null if the room not found.
      */
-    describeExits(roomName: string): { "1": string, "3": string, "5": string, "7": string };
+    describeExits(roomName: string): { "1"?: string, "3"?: string, "5"?: string, "7"?: string } | null;
     /**
      * Find the exit direction from the given room en route to another room.
      * @param fromRoom Start room name or room object.
@@ -18,17 +18,14 @@ interface GameMap {
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string | Room, toRoom: string | Room): string | number;
+    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: FindRouteOpts): FindConstExit | ReturnConstErrNoPath | ReturnConstErrInvalidArgs;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
      * @param toRoom Finish room name or room object.
      * @returns the route array or ERR_NO_PATH code
      */
-    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: { routeCallback: { (roomName: string, fromRoomName: string): any } }): {
-        exit: string;
-        room: string;
-    }[] | number;
+    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: FindRouteOpts): RouteStep[] | ReturnConstErrNoPath;
     /**
      * Get the linear distance (in rooms) between two rooms. You can use this function to estimate the energy cost of
      * sending resources through terminals, or using observers and nukes.
@@ -46,12 +43,12 @@ interface GameMap {
      * @param y Y position in the room.
      * @param roomName The room name.
      */
-    getTerrainAt(x: number, y: number, roomName: string): string;
+    getTerrainAt(x: number, y: number, roomName: string): TerrainConst;
     /**
      * Get terrain type at the specified room position. This method works for any room in the world even if you have no access to it.
      * @param pos The position object.
      */
-    getTerrainAt(pos: RoomPosition): string;
+    getTerrainAt(pos: RoomPosition): TerrainConst;
 
     /**
      * Check if the room with the given name is protected by temporary "newbie" walls.

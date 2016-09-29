@@ -3,7 +3,7 @@
  */
 interface Room {
     readonly prototype: Room;
-    
+
     /**
      * The Controller structure of this room, if present, otherwise undefined.
      */
@@ -24,7 +24,7 @@ interface Room {
      * One of the following constants:
      * MODE_SIMULATION, MODE_SURVIVAL, MODE_WORLD, MODE_ARENA
      */
-    mode: string;
+    mode: ModeConst;
     /**
      * The name of the room.
      */
@@ -48,14 +48,14 @@ interface Room {
      * @param structureType One of the following constants: STRUCTURE_EXTENSION, STRUCTURE_RAMPART, STRUCTURE_ROAD, STRUCTURE_SPAWN, STRUCTURE_WALL, STRUCTURE_LINK
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(x: number, y: number, structureType: string): number;
+    createConstructionSite(x: number, y: number, structureType: StructureConst): ReturnConstOk | ReturnConstErrInvalidTarget | ReturnConstErrFull | ReturnConstErrInvalidArgs | ReturnConstErrRCL;
     /**
      * Create new ConstructionSite at the specified location.
      * @param pos Can be a RoomPosition object or any object containing RoomPosition.
      * @param structureType One of the following constants: STRUCTURE_EXTENSION, STRUCTURE_RAMPART, STRUCTURE_ROAD, STRUCTURE_SPAWN, STRUCTURE_WALL, STRUCTURE_LINK
      * @returns Result Code: OK, ERR_INVALID_TARGET, ERR_INVALID_ARGS, ERR_RCL_NOT_ENOUGH
      */
-    createConstructionSite(pos: RoomPosition | { pos: RoomPosition }, structureType: string): number;
+    createConstructionSite(pos: RoomPosition | { pos: RoomPosition }, structureType: StructureConst): ReturnConstOk | ReturnConstErrInvalidTarget | ReturnConstErrFull | ReturnConstErrInvalidArgs | ReturnConstErrRCL;
     /**
      * Create new Flag at the specified location.
      * @param x The X position.
@@ -64,7 +64,7 @@ interface Room {
      * @param color The color of a new flag. Should be one of the COLOR_* constants. The default value is COLOR_WHITE.
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      */
-    createFlag(x: number, y: number, name?: string, color?: number, secondaryColor?: number): number;
+    createFlag(x: number, y: number, name?: string, color?: ColorConst, secondaryColor?: ColorConst): string | ReturnConstErrNameExists | ReturnConstErrInvalidArgs;
     /**
      * Create new Flag at the specified location.
      * @param pos Can be a RoomPosition object or any object containing RoomPosition.
@@ -72,21 +72,21 @@ interface Room {
      * @param color The color of a new flag. Should be one of the COLOR_* constants. The default value is COLOR_WHITE.
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      */
-    createFlag(pos: RoomPosition | { pos: RoomPosition }, name?: string, color?: number, secondaryColor?: number): number;
+    createFlag(pos: RoomPosition | { pos: RoomPosition }, name?: string, color?: ColorConst, secondaryColor?: ColorConst): string | ReturnConstErrNameExists | ReturnConstErrInvalidArgs;
     /**
      * Find all objects of the specified type in the room.
      * @param type One of the following constants:FIND_CREEPS, FIND_MY_CREEPS, FIND_HOSTILE_CREEPS, FIND_MY_SPAWNS, FIND_HOSTILE_SPAWNS, FIND_SOURCES, FIND_SOURCES_ACTIVE, FIND_DROPPED_RESOURCES, FIND_DROPPED_ENERGY, FIND_STRUCTURES, FIND_MY_STRUCTURES, FIND_HOSTILE_STRUCTURES, FIND_FLAGS, FIND_CONSTRUCTION_SITES, FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT, FIND_EXIT
      * @param opts An object with additional options
      * @returns An array with the objects found.
      */
-    find<T>(type: number, opts?: { filter: Object | Function | string }): T[];
+    find<T>(type: FindConst, opts?: { filter: Object | Function | string }): T[];
     /**
      * Find the exit direction en route to another room.
      * @param room Another room name or room object.
      * @returns The room direction constant, one of the following: FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT
      * Or one of the following error codes: ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExitTo(room: string | Room): number;
+    findExitTo(room: string | Room): FindConstExit | ReturnConstErrNoPath | ReturnConstErrInvalidArgs;
     /**
      * Find an optimal path inside the room between fromPos and toPos using A* search algorithm.
      * @param fromPos The start position.
@@ -131,14 +131,14 @@ interface Room {
      * @param y The Y position.
      * @returns An array of objects of the given type at the specified position if found.
      */
-    lookForAt<T>(type: string, x: number, y: number): T[];
+    lookForAt<T>(type: LookConst, x: number, y: number): T[];
     /**
      * Get an object with the given type at the specified room position.
      * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain
      * @param target Can be a RoomPosition object or any object containing RoomPosition.
      * @returns An array of objects of the given type at the specified position if found.
      */
-    lookForAt<T>(type: string, target: RoomPosition | { pos: RoomPosition }): T[];
+    lookForAt<T>(type: LookConst, target: RoomPosition | { pos: RoomPosition }): T[];
     /**
      * Get the list of objects with the given type at the specified room area. This method is more CPU efficient in comparison to multiple lookForAt calls.
      * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain
@@ -148,24 +148,43 @@ interface Room {
      * @param right The right X boundary of the area.
      * @returns An object with all the objects of the given type in the specified area
      */
-    lookForAtArea(type: string, top: number, left: number, bottom: number, right: number, asArray?: boolean): LookAtResultMatrix | LookAtResultWithPos[];
+    lookForAtArea(type: LookConst, top: number, left: number, bottom: number, right: number, asArray: true): LookAtResultWithPos[];
+    /**
+     * Get the list of objects with the given type at the specified room area. This method is more CPU efficient in comparison to multiple lookForAt calls.
+     * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain
+     * @param top The top Y boundary of the area.
+     * @param left The left X boundary of the area.
+     * @param bottom The bottom Y boundary of the area.
+     * @param right The right X boundary of the area.
+     * @returns An object with all the objects of the given type in the specified area
+     */
+    lookForAtArea(type: LookConst, top: number, left: number, bottom: number, right: number, asArray?: false): LookAtResultMatrix;
+    /**
+     * Get the list of objects with the given type at the specified room area. This method is more CPU efficient in comparison to multiple lookForAt calls.
+     * @param type One of the following string constants: constructionSite, creep, energy, exit, flag, source, structure, terrain
+     * @param top The top Y boundary of the area.
+     * @param left The left X boundary of the area.
+     * @param bottom The bottom Y boundary of the area.
+     * @param right The right X boundary of the area.
+     * @returns An object with all the objects of the given type in the specified area
+     */
+    lookForAtArea(type: LookConst, top: number, left: number, bottom: number, right: number, asArray?: boolean): LookAtResultMatrix | LookAtResultWithPos[];
+}
+
+interface RoomConstructor {
+    new (id: string): Room;
 
     /**
      * Serialize a path array into a short string representation, which is suitable to store in memory.
      * @param path A path array retrieved from Room.findPath.
      * @returns A serialized string form of the given path.
      */
-
+    serializePath(path: PathStep[]): string;
     /**
      * Deserialize a short string path representation into an array form.
      * @param path A serialized path string.
      * @returns A path array.
      */
-}
-
-interface RoomConstructor {
-    new (id: string): Room;
-    serializePath(path: PathStep[]): string;
     deserializePath(path: string): PathStep[];
 }
 

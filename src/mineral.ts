@@ -8,13 +8,17 @@ interface Mineral extends RoomObject {
     readonly prototype: Mineral;
 
     /**
+     * Room cannot be undefined for a Mineral.
+     */
+    room: Room;
+    /**
      * The remaining amount of resources.
      */
     mineralAmount: number;
     /**
      * The resource type, one of the RESOURCE_* constants.
      */
-    mineralType: string;
+    mineralType: ResourceConst;
     /**
      * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
      */

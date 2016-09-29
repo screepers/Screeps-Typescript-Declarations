@@ -26,20 +26,20 @@ interface Market {
     /**
      * Cancel a previously created order. The 5% fee is not returned.
      */
-    cancelOrder(orderId: string): number;
+    cancelOrder(orderId: string): ReturnConstOk | ReturnConstErrInvalidArgs;
     /**
      * Create a market order in your terminal. You will be charged price*amount*0.05 credits when the order is placed.
      * The maximum orders count is 20 per player. You can create an order at any time with any amount,
      * it will be automatically activated and deactivated depending on the resource/credits availability.
      */
-    createOrder(type: string, resourceType: string, price: number, totalAmount: number, roomName?: string): number;
+    createOrder(type: OrderConst, resourceType: ResourceConst | SubscriptionTokenConst, price: number, totalAmount: number, roomName?: string): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrFull | ReturnConstErrInvalidArgs;
     /**
      * Execute a trade deal from your Terminal to another player's Terminal using the specified buy/sell order.
      * Your Terminal will be charged energy units of transfer cost regardless of the order resource type.
      * You can use Game.market.calcTransactionCost method to estimate it.
      * When multiple players try to execute the same deal, the one with the shortest distance takes precedence.
      */
-    deal(orderId: string, amount: number, targetRoomName?: string): number;
+    deal(orderId: string, amount: number, targetRoomName?: string): ReturnConstOk | ReturnConstErrNotEnough | ReturnConstErrFull | ReturnConstErrInvalidArgs;
     /**
      * Get other players' orders currently active on the market.
      */
@@ -51,24 +51,52 @@ interface Market {
 interface Transaction {
     transactionId: string;
     time: number;
-    sender?: { username: string };
-    recipient?: { username: string };
-    resourceType: string;
+    sender?: Owner;
+    recipient?: Owner;
+    resourceType: ResourceConst | SubscriptionTokenConst;
     amount: number;
     from: string;
     to: string;
-    description: string;
+    description: string | null;
 }
 
 interface Order {
+    /**
+     * The unique order ID.
+     */
     id: string;
-    created: number;
+    /**
+     * Whether this order is active and visible to other players. An order can become non-active when the terminal
+     * doesn't have enough resources to sell or you are out of credits to buy.
+     */
     active?: boolean;
-    type: string;
-    resourceType: string;
+    /**
+     * The order creation time in game ticks.
+     */
+    created: number;
+    /**
+     * Either ORDER_SELL or ORDER_BUY.
+     */
+    type: OrderConst;
+    /**
+     * Either one of the RESOURCE_* constants or SUBSCRIPTION_TOKEN.
+     */
+    resourceType: ResourceConst | SubscriptionTokenConst;
+    /**
+     * The room where this order is placed.
+     */
     roomName?: string;
+    /**
+     * Currently available amount to trade.
+     */
     amount: number;
+    /**
+     * How many resources are left to trade via this order. When it becomes equal to zero, the order is removed.
+     */
     remainingAmount: number;
+    /**
+     * Initial order amount.
+     */
     totalAmount?: number;
     price: number;
 }
@@ -76,8 +104,8 @@ interface Order {
 interface OrderFilter {
     id?: string;
     created?: number;
-    type?: string;
-    resourceType?: string;
+    type?: OrderConst;
+    resourceType?: ResourceConst | SubscriptionTokenConst;
     roomName?: string;
     amount?: number;
     remainingAmount?: number;

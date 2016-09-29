@@ -18,15 +18,15 @@ interface CPU {
 /**
  * An array describing the creep’s body. Each element contains the following properties:
  */
-interface BodyPartDefinition {
+interface BodypartDefinition {
     /**
      * If the body part is boosted, this property specifies the mineral type which is used for boosting. One of the RESOURCE_* constants.
      */
-    boost: string;
+    boost: ResourceConst;
     /**
      * One of the body part types constants.
      */
-    type: string;
+    type: BodypartConst;
     /**
      * The remaining amount of hit points of this body part.
      */
@@ -41,17 +41,17 @@ interface ReservationDefinition {
 }
 interface StoreDefinition {
     [resource: string]: number | undefined;
-    energy?: number;
+    energy: number;
     power?: number;
 }
 
 interface LookAtResultWithPos {
     x: number;
     y: number;
-    type: string;
+    type: LookConst;
     constructionSite?: ConstructionSite;
     creep?: Creep;
-    terrain?: string;
+    terrain?: TerrainConst;
     structure?: Structure;
     flag?: Flag;
     energy?: Resource;
@@ -59,6 +59,7 @@ interface LookAtResultWithPos {
     source?: Source;
     mineral?: Mineral;
     resource? : Resource;
+    [key: string]: any;
 }
 interface LookAtResult {
     type: string;
@@ -69,9 +70,10 @@ interface LookAtResult {
     flag?: Flag;
     source?: Source;
     structure?: Structure;
-    terrain?: string;
+    terrain?: TerrainConst;
     mineral?: Mineral;
     resource?: Resource;
+    [key: string]: any;
 }
 
 
@@ -167,12 +169,33 @@ interface MoveToOpts {
     noPathFinding?: boolean;
 }
 
+interface FindRouteOpts {
+    /**
+     * This callback accepts two arguments: function(roomName, fromRoomName). It can be used to calculate the cost of entering that
+     * room. You can use this to do things like prioritize your own rooms, or avoid some rooms. You can return a floating point cost
+     * or Infinity to block the room.
+     */
+    routeCallback?(roomName: string, fromRoomName: string): number;
+}
+
+interface RouteStep {
+    exit: FindConstExit;
+    room: string;
+}
+
 interface PathStep {
     x: number;
     dx: number;
     y: number;
     dy: number;
     direction: number;
+}
+
+type PathFinderGoal = RoomPosition | PathFinderGoalObject;
+
+interface PathFinderGoalObject {
+    pos: RoomPosition;
+    range?: number;
 }
 
 /**
@@ -201,3 +224,5 @@ interface _ConstructorById<T> extends _Constructor<T> {
     new (id: string): T;
     (id: string): T;
 }
+
+type PathfindingAlgorithm = "astar" | "dijkstra";

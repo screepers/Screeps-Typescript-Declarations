@@ -3,7 +3,11 @@
  */
 interface Nuke extends RoomObject {
     readonly prototype: Nuke;
-    
+
+    /**
+     * Room cannot be undefined for a Nuke.
+     */
+    room: Room;
     /**
      * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
      */

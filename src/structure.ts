@@ -2,9 +2,15 @@
  * Parent object for structure classes
  */
 
+type TransferEnergyReturn = ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrFull | ReturnConstErrNotInRange;
+
 interface Structure extends RoomObject {
     readonly prototype: Structure;
 
+    /**
+     * Room cannot be undefined for a Structure.
+     */
+    room: Room;
     /**
      * The current amount of hit points of the structure.
      */
@@ -20,11 +26,11 @@ interface Structure extends RoomObject {
     /**
      * One of the STRUCTURE_* constants.
      */
-    structureType: string;
+    structureType: StructureConst;
     /**
      * Destroy this structure immediately.
      */
-    destroy(): number;
+    destroy(): ReturnConstOk | ReturnConstErrNotOwner;
     /**
      * Check whether this structure can be used. If the room controller level is not enough, then this method will return false, and the structure will be highlighted with red in the game.
      */
@@ -33,7 +39,7 @@ interface Structure extends RoomObject {
      * Toggle auto notification when the structure is under attack. The notification will be sent to your account email. Turned on by default.
      * @param enabled Whether to enable notification or disable.
      */
-    notifyWhenAttacked(enabled: boolean): number;
+    notifyWhenAttacked(enabled: boolean): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrInvalidArgs;
 }
 
 interface StructureConstructor extends _Constructor<Structure>, _ConstructorById<Structure> {
@@ -72,6 +78,7 @@ declare const OwnedStructure: OwnedStructureConstructor;
 interface StructureController extends OwnedStructure {
     readonly prototype: StructureController;
 
+    structureType: StructureConstContainer;
     /**
      * Current controller level, from 0 to 8.
      */
@@ -87,7 +94,7 @@ interface StructureController extends OwnedStructure {
     /**
      * An object with the controller reservation info if present: username, ticksToEnd
      */
-    reservation: ReservationDefinition;
+    reservation?: ReservationDefinition;
     /**
      * The amount of game ticks when this controller will lose one level. This timer can be reset by using Creep.upgradeController.
      */
@@ -124,11 +131,13 @@ interface StructureExtension extends OwnedStructure {
      */
     energyCapacity: number;
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer the energy from the extension to a creep.
      * @param target The creep object which energy should be transferred to.
      * @param amount The amount of energy to be transferred. If omitted, all the remaining amount of energy will be used.
+     * @deprecated
      */
-    transferEnergy(target: Creep, amount?: number): number;
+    transferEnergy(target: Creep, amount?: number): TransferEnergyReturn;
 }
 
 interface StructureExtensionConstructor extends _Constructor<StructureExtension>, _ConstructorById<StructureExtension> {
@@ -142,6 +151,7 @@ declare const StructureExtension: StructureExtensionConstructor;
 interface StructureLink extends OwnedStructure {
     readonly prototype: StructureLink;
 
+    structureType: StructureConstLink;
     /**
      * The amount of game ticks the link has to wait until the next transfer is possible.
      */
@@ -159,7 +169,7 @@ interface StructureLink extends OwnedStructure {
      * @param target The target object.
      * @param amount The amount of energy to be transferred. If omitted, all the available energy is used.
      */
-    transferEnergy(target: Creep | StructureLink, amount?: number): number;
+    transferEnergy(target: Creep | StructureLink, amount?: number): TransferEnergyReturn | ReturnConstErrInvalidArgs | ReturnConstErrTired | ReturnConstErrRCL;
 }
 
 interface StructureLinkConstructor extends _Constructor<StructureLink>, _ConstructorById<StructureLink> {
@@ -174,6 +184,7 @@ declare const StructureLink: StructureLinkConstructor;
 interface StructureKeeperLair extends OwnedStructure {
     readonly prototype: StructureKeeperLair;
 
+    structureType: StructureConstKeeperLair;
     /**
      * Time to spawning of the next Source Keeper.
      */
@@ -191,11 +202,12 @@ declare const StructureKeeperLair: StructureKeeperLairConstructor;
 interface StructureObserver extends OwnedStructure {
     readonly prototype: StructureObserver;
 
+    structureType: StructureConstObserver;
     /**
      * Provide visibility into a distant room from your script. The target room object will be available on the next tick. The maximum range is 5 rooms.
      * @param roomName
      */
-    observeRoom(roomName: string): number;
+    observeRoom(roomName: string): ReturnConstOk | ReturnConstErrInvalidArgs | ReturnConstErrRCL;
 }
 
 interface StructureObserverConstructor extends _Constructor<StructureObserver>, _ConstructorById<StructureObserver> {
@@ -209,6 +221,7 @@ declare const StructureObserver: StructureObserverConstructor;
 interface StructurePowerBank extends OwnedStructure {
     readonly prototype: StructurePowerBank;
 
+    structureType: StructureConstPowerBank;
     /**
      * The amount of power containing.
      */
@@ -230,6 +243,8 @@ declare const StructurePowerBank: StructurePowerBankConstructor;
  */
 interface StructurePowerSpawn extends OwnedStructure {
     readonly prototype: StructurePowerSpawn;
+
+    structureType: StructureConstPowerSpawn;
     /**
      * The amount of energy containing in this structure.
      */
@@ -255,13 +270,15 @@ interface StructurePowerSpawn extends OwnedStructure {
     /**
      * Register power resource units into your account. Registered power allows to develop power creeps skills. Consumes 1 power resource unit and 50 energy resource units.
      */
-    processPower(): number;
+    processPower(): ReturnConstOk | ReturnConstErrNotEnough | ReturnConstErrRCL;
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer the energy from this structure to a creep.
      * @param target The creep object which energy should be transferred to.
      * @param amount The amount of energy to be transferred. If omitted, all the remaining amount of energy will be used.
+     * @deprecated
      */
-    transferEnergy(target: Creep, amount?: number): number;
+    transferEnergy(target: Creep, amount?: number): TransferEnergyReturn;
 
 }
 
@@ -277,11 +294,11 @@ declare const StructurePowerSpawn: StructurePowerSpawnConstructor;
 interface StructureRampart extends OwnedStructure {
     readonly prototype: StructureRampart;
 
+    structureType: StructureConstRampart;
     /**
      * The amount of game ticks when this rampart will lose some hit points.
      */
     ticksToDecay: number;
-
     /**
      * If false (default), only your creeps can step on the same square. If true, any hostile creeps can pass through.
      */
@@ -291,7 +308,7 @@ interface StructureRampart extends OwnedStructure {
      * Make this rampart public to allow other players' creeps to pass through.
      * @param isPublic Whether this rampart should be public or non-public
      */
-    setPublic(isPublic: boolean);
+    setPublic(isPublic: boolean): ReturnConstOk | ReturnConstErrNotOwner;
 }
 
 interface StructureRampartConstructor extends _Constructor<StructureRampart>, _ConstructorById<StructureRampart> {
@@ -306,6 +323,7 @@ declare const StructureRampart: StructureRampartConstructor;
 interface StructureRoad extends Structure {
     readonly prototype: StructureRoad;
 
+    structureType: StructureConstRoad;
     /**
      * The amount of game ticks when this road will lose some hit points.
      */
@@ -324,6 +342,7 @@ declare const StructureRoad: StructureRoadConstructor;
 interface StructureStorage extends OwnedStructure {
     readonly prototype: StructureStorage;
 
+    structureType: StructureConstStorage;
     /**
      * An object with the storage contents.
      */
@@ -334,19 +353,14 @@ interface StructureStorage extends OwnedStructure {
     storeCapacity: number;
 
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer resource from this storage to a creep. The target has to be at adjacent square.
      * @param target The target object.
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
-     */
-    transfer(target: Creep, resourceType: string, amount?: number): number;
-    /**
-     * An alias for storage.transfer(target, RESOURCE_ENERGY, amount). This method is deprecated.
-     * @param target The target object.
-     * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      * @deprecated
      */
-    transferEnergy(target: Creep, amount?: number): number;
+    transfer(target: Creep, resourceType: ResourceConst, amount?: number): TransferEnergyReturn | ReturnConstErrInvalidArgs;
 }
 
 interface StructureStorageConstructor extends _Constructor<StructureStorage>, _ConstructorById<StructureStorage> {
@@ -362,6 +376,7 @@ declare const StructureStorage: StructureStorageConstructor;
 interface StructureTower extends OwnedStructure {
     readonly prototype: StructureTower;
 
+    structureType: StructureConstTower;
     /**
      * The amount of energy containing in this structure.
      */
@@ -375,23 +390,25 @@ interface StructureTower extends OwnedStructure {
      * Remotely attack any creep in the room. Consumes 10 energy units per tick. Attack power depends on the distance to the target: from 600 hits at range 10 to 300 hits at range 40.
      * @param target The target creep.
      */
-    attack(target: Creep): number;
+    attack(target: Creep): ReturnConstOk | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrRCL;
     /**
      * Remotely heal any creep in the room. Consumes 10 energy units per tick. Heal power depends on the distance to the target: from 400 hits at range 10 to 200 hits at range 40.
      * @param target The target creep.
      */
-    heal(target: Creep): number;
+    heal(target: Creep): ReturnConstOk | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrRCL;
     /**
      * Remotely repair any structure in the room. Consumes 10 energy units per tick. Repair power depends on the distance to the target: from 600 hits at range 10 to 300 hits at range 40.
      * @param target The target structure.
      */
-    repair(target: Spawn | Structure): number;
+    repair(target: Structure): ReturnConstOk | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrRCL;
     /**
-     *
+     * DEPRECATED: Please use Creep.withdraw instead.
+     * Transfer the energy from this structure to a creep.
      * @param target The creep object which energy should be transferred to.
      * @param amount The amount of energy to be transferred. If omitted, all the remaining amount of energy will be used.
+     * @deprecated
      */
-    transferEnergy(target: Creep, amount?: number): number;
+    transferEnergy(target: Creep, amount?: number): TransferEnergyReturn;
 }
 
 interface StructureTowerConstructor extends _Constructor<StructureTower>, _ConstructorById<StructureTower> {
@@ -404,6 +421,8 @@ declare const StructureTower: StructureTowerConstructor;
  */
 interface StructureWall extends Structure {
     readonly prototype: StructureWall;
+
+    structureType: StructureConstWall;
     /**
      * The amount of game ticks when the wall will disappear (only for automatically placed border walls at the start of the game).
      */
@@ -420,6 +439,8 @@ declare const StructureWall: StructureWallConstructor;
  */
 interface StructureExtractor extends OwnedStructure {
     readonly prototype: StructureExtractor;
+
+    structureType: StructureConstExtractor;
 }
 
 interface StructureExtractorConstructor extends _Constructor<StructureExtractor>, _ConstructorById<StructureExtractor> {
@@ -432,6 +453,8 @@ declare const StructureExtractor: StructureExtractorConstructor;
  */
 interface StructureLab extends OwnedStructure {
     readonly prototype: StructureLab;
+
+    structureType: StructureConstLab;
     /**
      * The amount of game ticks the lab has to wait until the next reaction is possible.
      */
@@ -451,7 +474,7 @@ interface StructureLab extends OwnedStructure {
     /**
      * The type of minerals containing in the lab. Labs can contain only one mineral type at the same time.
      */
-    mineralType: string;
+    mineralType: ResourceConst;
     /**
      * The total amount of minerals the lab can contain.
      */
@@ -461,20 +484,22 @@ interface StructureLab extends OwnedStructure {
      * @param creep The target creep.
      * @param bodyPartsCount The number of body parts of the corresponding type to be boosted. Body parts are always counted left-to-right for TOUGH, and right-to-left for other types. If undefined, all the eligible body parts are boosted.
      */
-    boostCreep(creep: Creep, bodyPartsCount?: number): number;
+    boostCreep(creep: Creep, bodyPartsCount?: number): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotFound | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrNotInRange;
     /**
      * Produce mineral compounds using reagents from two another labs. Each lab has to be within 2 squares range. The same input labs can be used by many output labs
      * @param lab1 The first source lab.
      * @param lab2 The second source lab.
      */
-    runReaction(lab1: StructureLab, lab2: StructureLab): number;
+    runReaction(lab1: StructureLab, lab2: StructureLab): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrFull | ReturnConstErrNotInRange | ReturnConstErrInvalidArgs | ReturnConstErrTired;
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer resource from this structure to a creep. The target has to be at adjacent square.
      * @param target The target object.
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
+     * @deprecated
      */
-    transfer(target: Creep, resourceType: string, amount?: number): number;
+    transfer(target: Creep, resourceType: ResourceConst, amount?: number): TransferEnergyReturn | ReturnConstErrInvalidArgs;
 }
 
 interface StructureLabConstructor extends _Constructor<StructureLab>, _ConstructorById<StructureLab> {
@@ -487,10 +512,12 @@ declare const StructureLab: StructureLabConstructor;
  */
 interface StructureTerminal extends OwnedStructure {
     readonly prototype: StructureTerminal;
+
+    structureType: StructureConstTerminal;
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the storage can contain.
      */
@@ -502,14 +529,16 @@ interface StructureTerminal extends OwnedStructure {
      * @param destination The name of the target room. You don't have to gain visibility in this room.
      * @param description The description of the transaction. It is visible to the recipient. The maximum length is 100 characters.
      */
-    send(resourceType: string, amount: number, destination: string, description?: string): number;
+    send(resourceType: ResourceConst, amount: number, destination: string, description?: string): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrInvalidArgs;
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer resource from this terminal to a creep. The target has to be at adjacent square.
      * @param target The target object.
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
+     * @deprecated
      */
-    transfer(target: Creep, resourceType: String, amount?: number): number;
+    transfer(target: Creep, resourceType: ResourceConst, amount?: number): TransferEnergyReturn | ReturnConstErrInvalidArgs;
 }
 
 interface StructureTerminalConstructor extends _Constructor<StructureTerminal>, _ConstructorById<StructureTerminal> {
@@ -522,22 +551,26 @@ declare const StructureTerminal: StructureTerminalConstructor;
  */
 interface StructureContainer extends Structure {
     readonly prototype: StructureContainer;
+
+    structureType: StructureConstContainer;
     /**
      * An object with the structure contents. Each object key is one of the RESOURCE_* constants, values are resources
      * amounts. Use _.sum(structure.store) to get the total amount of contents
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the structure can contain.
      */
     storeCapacity: number;
     /**
+     * DEPRECATED: Please use Creep.withdraw instead.
      * Transfer resource from this structure to a creep. The target has to be at adjacent square.
      * @param target The target object.
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
+     * @deprecated
      */
-    transfer(target: Creep, resourceType: string, amount?: number): number;
+    transfer(target: Creep, resourceType: ResourceConst, amount?: number): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrFull | ReturnConstErrNotInRange | ReturnConstErrInvalidArgs;
 }
 
 interface StructureContainerConstructor extends _Constructor<StructureContainer>, _ConstructorById<StructureContainer> {
@@ -554,6 +587,8 @@ declare const StructureContainer: StructureContainerConstructor;
  */
 interface StructureNuker extends OwnedStructure {
     readonly prototype: StructureNuker;
+
+    structureType: StructureConstNuker;
     /**
      * The amount of energy contained in this structure.
      */
@@ -578,7 +613,7 @@ interface StructureNuker extends OwnedStructure {
      * Launch a nuke to the specified position.
      * @param pos The target room position.
      */
-    launchNuke(pos: RoomPosition): number;
+    launchNuke(pos: RoomPosition): ReturnConstOk | ReturnConstErrNotOwner | ReturnConstErrNotEnough | ReturnConstErrInvalidTarget | ReturnConstErrNotInRange | ReturnConstErrTired | ReturnConstErrRCL;
 }
 
 interface StructureNukerConstructor extends _Constructor<StructureNuker>, _ConstructorById<StructureNuker> {
@@ -593,6 +628,8 @@ declare const StructureNuker: StructureNukerConstructor;
  */
 interface StructurePortal extends Structure {
     readonly prototype: StructurePortal;
+
+    structureType: StructureConstPortal;
     /**
      * The position object in the destination room.
      */
@@ -600,7 +637,7 @@ interface StructurePortal extends Structure {
     /**
      * The amount of game ticks when the portal disappears, or undefined when the portal is stable.
      */
-    ticksToDecay: number;
+    ticksToDecay: number | undefined;
 }
 
 interface StructurePortalConstructor extends _Constructor<StructurePortal>, _ConstructorById<StructurePortal> {

@@ -4,7 +4,11 @@
 
 interface Resource extends RoomObject {
     readonly prototype: Resource;
-    
+
+    /**
+     * Room cannot be undefined for a Resource.
+     */
+    room: Room;
     /**
      * The amount of resource units containing.
      */
@@ -16,7 +20,7 @@ interface Resource extends RoomObject {
     /**
      * One of the `RESOURCE_*` constants.
      */
-    resourceType: string;
+    resourceType: ResourceConst;
 }
 
 interface ResourceConstructor {
