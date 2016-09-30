@@ -16,15 +16,7 @@ interface PathFinder {
      * @param goal goal A RoomPosition or an object containing a RoomPosition and range
      * @param opts An object containing additional pathfinding flags.
      */
-    search(origin: RoomPosition, goal:  RoomPosition|{pos: RoomPosition, range: number}, opts?: PathFinderOpts): {path: RoomPosition[], ops:number};
-    /**
-     * Find an optimal path between origin and goal.
-     *
-     * @param origin The start position.
-     * @param goal an array of goals, the cheapest path found out of all the goals will be returned.
-     * @param opts An object containing additional pathfinding flags.
-     */
-    search(origin: RoomPosition, goal:  RoomPosition[]|{pos: RoomPosition, range: number}[], opts?: PathFinderOpts): {path: RoomPosition[], ops:number};
+    search(origin: RoomPosition, goal: PathFinderGoal | PathFinderGoal[], opts?: PathFinderOpts): PathFinderReturn;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
      * This method should be invoked every tick. It affects the following methods behavior:
@@ -33,6 +25,25 @@ interface PathFinder {
      * @param isEnabled Whether to activate the new pathfinder or deactivate.
      */
     use(isEnabled: boolean);
+}
+
+interface PathFinderReturn {
+    /**
+     * An array of RoomPosition objects.
+     */
+    path: RoomPosition[];
+    /**
+     * Total number of operations performed before this path was calculated.
+     */
+    ops: number;
+    /**
+     * The total cost of the path as derived from `plainCost`, `swampCost` and any given CostMatrix instances.
+     */
+    cost: number;
+    /**
+     * If the pathfinder fails to find a complete path, this will be true. Note that `path` will still be populated with a partial path which represents the closest path it could find given the search parameters.
+     */
+    incomplete: boolean;
 }
 
 /**
