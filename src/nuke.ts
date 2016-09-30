@@ -1,7 +1,13 @@
 /**
  * A nuke landing position. This object cannot be removed or modified. You can find incoming nukes in the room using the FIND_NUKES constant.
  */
-declare class Nuke extends RoomObject {
+interface Nuke extends RoomObject {
+    readonly prototype: Nuke;
+
+    /**
+     * Room cannot be undefined for a Nuke.
+     */
+    room: Room;
     /**
      * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
      */
@@ -15,3 +21,9 @@ declare class Nuke extends RoomObject {
      */
     timeToLand: number;
 }
+
+interface NukeConstructor {
+    new (id: string): Nuke;
+}
+
+declare const Nuke: NukeConstructor;
