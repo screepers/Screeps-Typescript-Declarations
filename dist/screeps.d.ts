@@ -90,7 +90,9 @@ declare var SOURCE_ENERGY_KEEPER_CAPACITY: number;
 declare var WALL_HITS: number;
 declare var WALL_HITS_MAX: number;
 declare var EXTENSION_HITS: number;
-declare var EXTENSION_ENERGY_CAPACITY: number;
+declare var EXTENSION_ENERGY_CAPACITY: {
+    [level: number]: number;
+};
 declare var ROAD_HITS: number;
 declare var ROAD_WEAROUT: number;
 declare var ROAD_DECAY_AMOUNT: number;
