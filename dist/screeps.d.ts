@@ -1364,6 +1364,30 @@ declare class Nuke extends RoomObject {
     timeToLand: number;
 }
 /**
+ * Represents the response object returned from the PathFinder.
+ */
+interface PathFinderResult {
+    /**
+     * An array of RoomPosition objects that describe the route.
+     */
+    path: RoomPosition[];
+    /**
+     * Total number of operations performed before this path was calculated.
+     */
+    ops: number;
+    /**
+     * The total cost of the path as derived from `plainCost`, `swampCost` and any given CostMatrix
+     * instances.
+     */
+    cost: number;
+    /**
+     * If the pathfinder fails to find a complete path, this will be true. Note that `path` will
+     * still be populated with a partial path which represents the closest path it could find given
+     * the search parameters.
+     */
+    incomplete: boolean;
+}
+/**
  * Contains powerful methods for pathfinding in the game world. Support exists for custom navigation costs and paths which span multiple rooms.
  * Additionally PathFinder can search for paths through rooms you can't see, although you won't be able to detect any dynamic obstacles like creeps or buildings.
  */
@@ -1382,10 +1406,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition | {
         pos: RoomPosition;
         range: number;
-    }, opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }, opts?: PathFinderOpts): PathFinderResult;
     /**
      * Find an optimal path between origin and goal.
      *
@@ -1396,10 +1417,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition[] | {
         pos: RoomPosition;
         range: number;
-    }[], opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }[], opts?: PathFinderOpts): PathFinderResult;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
      * This method should be invoked every tick. It affects the following methods behavior:
@@ -1434,6 +1452,12 @@ interface PathFinderOpts {
      * The maximum allowed rooms to search. The default (and maximum) is 16.
      */
     maxRooms?: number;
+    /**
+     * The maximum allowed cost of the path returned. If at any point the pathfinder detects that it
+     * is impossible to find a path with a cost less than or equal to `maxCost` it will immediately
+     * halt the search. The default is Infinity.
+     */
+    maxCost?: number;
     /**
      * Weight to apply to the heuristic in the A* formula F = G + weight * H. Use this option only if you understand
      * the underlying A* algorithm mechanics! The default value is 1.
