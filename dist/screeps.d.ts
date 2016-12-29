@@ -825,7 +825,7 @@ declare class Creep extends RoomObject {
      * @param text The sign text. The maximum text length is 100 characters.
      * @returns Result Code: OK, ERR_BUSY, ERR_INVALID_TARGET, ERR_NOT_IN_RANGE
      */
-    signController(target: Controller, test: string): any;
+    signController(target: Controller, text: string): any;
     /**
      * Kill the creep immediately.
      */
