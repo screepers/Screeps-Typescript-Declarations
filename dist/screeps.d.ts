@@ -1739,10 +1739,6 @@ declare class Room {
      */
     storage: StructureStorage;
     /**
-     * An object with survival game info if available
-     */
-    survivalInfo: SurvivalGameInfo;
-    /**
      * The Terminal structure of this room, if present, otherwise undefined.
      */
     terminal: Terminal;
