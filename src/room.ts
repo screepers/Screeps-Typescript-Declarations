@@ -117,6 +117,7 @@ declare class Room {
      * @param left The left X boundary of the area.
      * @param bottom The bottom Y boundary of the area.
      * @param right The right X boundary of the area.
+     * @param asArray Set to true if you want to get the result as a plain array.
      * @returns An object with all the objects in the specified area
      */
     lookAtArea(top: number, left: number, bottom: number, right: number, asArray?: boolean): LookAtResultMatrix | LookAtResultWithPos[];
