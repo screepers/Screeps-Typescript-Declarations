@@ -768,7 +768,7 @@ declare class Creep extends RoomObject {
      * @param y Y position of the target in the room.
      * @param opts An object containing pathfinding options flags (see Room.findPath for more info) or one of the following: reusePath, serializeMemory, noPathFinding
      */
-    moveTo(x: number, y: number, opts?: MoveToOpts & FindPathOpts): number;
+    moveTo(x: number, y: number, opts?: MoveToOpts): number;
     /**
      * Find the optimal path to the target within the same room and move to it. A shorthand to consequent calls of pos.findPathTo() and move() methods. If the target is in another room, then the corresponding exit will be used as a target. Needs the MOVE body part.
      * @param target Can be a RoomPosition object or any object containing RoomPosition.
@@ -776,7 +776,7 @@ declare class Creep extends RoomObject {
      */
     moveTo(target: RoomPosition | {
         pos: RoomPosition;
-    }, opts?: MoveToOpts & FindPathOpts): number;
+    }, opts?: MoveToOpts): number;
     /**
      * Toggle auto notification when the creep is under attack. The notification will be sent to your account email. Turned on by default.
      * @param enabled Whether to enable notification or disable.
@@ -1102,7 +1102,7 @@ interface FindPathOpts {
      */
     maxRooms?: number;
 }
-interface MoveToOpts {
+interface MoveToOpts extends FindPathOpts {
     /**
      * This option enables reusing the path found along multiple game ticks. It allows to save CPU time, but can result in a slightly
      * slower creep reaction behavior. The path is stored into the creep's memory to the _move property. The reusePath value defines

@@ -146,7 +146,7 @@ interface FindPathOpts {
     maxRooms?: number;
 }
 
-interface MoveToOpts {
+interface MoveToOpts extends FindPathOpts {
     /**
      * This option enables reusing the path found along multiple game ticks. It allows to save CPU time, but can result in a slightly 
      * slower creep reaction behavior. The path is stored into the creep's memory to the _move property. The reusePath value defines 
@@ -166,7 +166,7 @@ interface MoveToOpts {
      * significantly save CPU time in some cases. The default value is false.
      */
     noPathFinding?: boolean;
-}
+};
 
 interface PathStep {
     x: number;
