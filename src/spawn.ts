@@ -20,7 +20,7 @@ declare class Spawn extends OwnedStructure{
      */
     hitsMax: number;
     /**
-     * A unique object identificator. You can use Game.getObjectById method to retrieve an object instance by its id.
+     * A unique object identifier. You can use Game.getObjectById method to retrieve an object instance by its id.
      */
     id: string;
     /**
