@@ -2389,7 +2389,7 @@ declare class StructureTerminal extends OwnedStructure {
      * @param resourceType One of the RESOURCE_* constants.
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      */
-    transfer(target: Creep, resourceType: String, amount?: number): number;
+    transfer(target: Creep, resourceType: string, amount?: number): number;
 }
 /**
  * Contains up to 2,000 resource units. Can be constructed in neutral rooms. Decays for 5,000 hits per 100 ticks.
