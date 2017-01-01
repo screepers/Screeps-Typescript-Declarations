@@ -36,7 +36,7 @@ declare class GameMap {
      * @returns the route array or ERR_NO_PATH code
      */
     findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): {
-        exit: string;
+        exit: number;
         room: string;
     }[] | number;
     /**
