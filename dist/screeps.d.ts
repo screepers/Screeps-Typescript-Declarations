@@ -1146,6 +1146,14 @@ interface SurvivalGameInfo {
     wave: number;
 }
 /**
+ * The options that can be accepted by `findRoute()` and friends.
+ */
+interface RouteOptions {
+    routeCallback: {
+        (roomName: string, fromRoomName: string): any;
+    };
+}
+/**
  * A global object representing world map. Use it to navigate between rooms. The object is accessible via Game.map property.
  */
 declare class GameMap {
@@ -1164,23 +1172,21 @@ declare class GameMap {
      * Find the exit direction from the given room en route to another room.
      * @param fromRoom Start room name or room object.
      * @param toRoom Finish room name or room object.
+     * @param opts (optional) An object with the pathfinding options.
      * @return The room direction constant, one of the following:
      * FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string | Room, toRoom: string | Room): string | number;
+    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): string | number;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
      * @param toRoom Finish room name or room object.
+     * @param opts (optional) An object with the pathfinding options.
      * @returns the route array or ERR_NO_PATH code
      */
-    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: {
-        routeCallback: {
-            (roomName: string, fromRoomName: string): number;
-        };
-    }): {
+    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): {
         exit: string;
         room: string;
     }[] | number;
