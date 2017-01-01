@@ -1178,7 +1178,7 @@ declare class GameMap {
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): string | number;
+    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): number;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
