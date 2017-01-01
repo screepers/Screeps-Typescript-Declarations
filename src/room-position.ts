@@ -40,25 +40,25 @@ declare class RoomPosition {
      * @param type See Room.find
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
-    findClosestByPath<T>(type: number, opts?: FindPathOpts & {filter?: any|string, algorithm?: string}): T;
+    findClosestByPath<T>(type: number, opts?: FindPathOpts & {filter?: any|string, algorithm?: string}): T | null;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
      * @param opts An object containing pathfinding options (see Room.findPath), or one of the following: filter, algorithm
      */
-    findClosestByPath<T>(objects: T[]|RoomPosition[], opts?: FindPathOpts & {filter?: any|string, algorithm?: string}): T;
+    findClosestByPath<T>(objects: T[]|RoomPosition[], opts?: FindPathOpts & {filter?: any|string, algorithm?: string}): T | null;
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param type See Room.find.
      * @param opts
      */
-    findClosestByRange<T>(type: number, opts?: {filter: any|string }): T;
+    findClosestByRange<T>(type: number, opts?: {filter: any|string }): T | null;
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
      * @param opts An object containing one of the following options: filter
      */
-    findClosestByRange<T>(objects: T[]|RoomPosition[], opts?: {filter: any|string }): T;
+    findClosestByRange<T>(objects: T[]|RoomPosition[], opts?: {filter: any|string }): T | null;
     /**
      * Find all objects in the specified linear range.
      * @param type See Room.find.
