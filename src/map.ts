@@ -25,7 +25,7 @@ declare class GameMap {
      * @param toRoom Finish room name or room object.
      * @returns the route array or ERR_NO_PATH code
      */
-    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: { routeCallback: { (roomName: string, fromRoomName: string): any } }): {
+    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: { routeCallback: { (roomName: string, fromRoomName: string): number } }): {
         exit: string;
         room: string;
     }[] | number;

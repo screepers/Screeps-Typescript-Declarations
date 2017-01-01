@@ -1178,7 +1178,7 @@ declare class GameMap {
      */
     findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: {
         routeCallback: {
-            (roomName: string, fromRoomName: string): any;
+            (roomName: string, fromRoomName: string): number;
         };
     }): {
         exit: string;
