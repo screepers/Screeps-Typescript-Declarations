@@ -1155,10 +1155,10 @@ declare class GameMap {
      * @returns The exits information or null if the room not found.
      */
     describeExits(roomName: string): {
-        "1": string;
-        "3": string;
-        "5": string;
-        "7": string;
+        "1"?: string;
+        "3"?: string;
+        "5"?: string;
+        "7"?: string;
     };
     /**
      * Find the exit direction from the given room en route to another room.
