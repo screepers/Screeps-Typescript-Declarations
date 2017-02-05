@@ -784,9 +784,8 @@ interface SignDefinition {
     datetime: Date;
 }
 interface StoreDefinition {
-    [resource: string]: number | undefined;
-    energy?: number;
-    power?: number;
+    [resource: string]: number;
+    energy: number;
 }
 interface LookAtResultWithPos {
     x: number;
@@ -1384,7 +1383,7 @@ declare class RoomPosition {
     findClosestByPath<T>(type: number, opts?: FindPathOpts & {
         filter?: any | string;
         algorithm?: string;
-    }): T;
+    }): T | null;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
@@ -1393,7 +1392,7 @@ declare class RoomPosition {
     findClosestByPath<T>(objects: T[] | RoomPosition[], opts?: FindPathOpts & {
         filter?: any | string;
         algorithm?: string;
-    }): T;
+    }): T | null;
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param type See Room.find.
@@ -1401,7 +1400,7 @@ declare class RoomPosition {
      */
     findClosestByRange<T>(type: number, opts?: {
         filter: any | string;
-    }): T;
+    }): T | null;
     /**
      * Find an object with the shortest linear distance from the given position.
      * @param objects An array of room's objects or RoomPosition objects that the search should be executed against.
@@ -1409,7 +1408,7 @@ declare class RoomPosition {
      */
     findClosestByRange<T>(objects: T[] | RoomPosition[], opts?: {
         filter: any | string;
-    }): T;
+    }): T | null;
     /**
      * Find all objects in the specified linear range.
      * @param type See Room.find.
