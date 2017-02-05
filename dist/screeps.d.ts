@@ -1190,10 +1190,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition | {
         pos: RoomPosition;
         range: number;
-    }, opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }, opts?: PathFinderOpts): PathFinderResult;
     /**
      * Find an optimal path between origin and goal.
      *
@@ -1204,10 +1201,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition[] | {
         pos: RoomPosition;
         range: number;
-    }[], opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }[], opts?: PathFinderOpts): PathFinderResult;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
      * This method should be invoked every tick. It affects the following methods behavior:
@@ -1292,6 +1286,28 @@ interface CostMatrix {
      * @param val Whatever serialize returned
      */
     deserialize(val: number[]): CostMatrix;
+}
+/**
+ * Result object of a Pathfinder search.
+ */
+interface PathFinderResult {
+    /**
+     * An array of RoomPosition objects.
+     */
+    path: Array<RoomPosition>;
+    /**
+     * Total number of operations performed before this path was calculated.
+     */
+    opts: number;
+    /**
+     * The total cost of the path as derived from `plainCost`, `swampCost` and any given CostMatrix instances.
+     */
+    cost: number;
+    /**
+     * If the pathfinder fails to find a complete path, this will be true.
+     * Note that `path` will still be populated with a partial path which represents the closest path it could find given the search parameters.
+     */
+    incomplete: boolean;
 }
 /**
  * RawMemory object allows to implement your own memory stringifier instead of built-in serializer based on JSON.stringify.
