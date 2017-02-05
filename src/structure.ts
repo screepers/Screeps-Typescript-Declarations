@@ -162,7 +162,7 @@ declare class StructureKeeperLair extends OwnedStructure {
     /**
      * Time to spawning of the next Source Keeper.
      */
-    ticksToSpawn: number;
+    ticksToSpawn: number | undefined;
 }
 
 /**

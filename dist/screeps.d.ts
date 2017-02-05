@@ -214,6 +214,7 @@ declare var RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE: string;
 declare var RESOURCE_CATALYZED_GHODIUM_ACID: string;
 declare var RESOURCE_CATALYZED_GHODIUM_ALKALIDE: string;
 declare var RESOURCES_ALL: string[];
+declare var SUBSCRIPTION_TOKEN: string;
 declare var CONTROLLER_LEVELS: {
     [level: number]: number;
 };
@@ -319,249 +320,14 @@ declare var NUKE_DAMAGE: {
     4: number;
 };
 declare var REACTIONS: {
-    H: {
-        O: string;
-        L: string;
-        K: string;
-        U: string;
-        Z: string;
-        G: string;
-    };
-    O: {
-        H: string;
-        L: string;
-        K: string;
-        U: string;
-        Z: string;
-        G: string;
-    };
-    Z: {
-        K: string;
-        H: string;
-        O: string;
-    };
-    L: {
-        U: string;
-        H: string;
-        O: string;
-    };
-    K: {
-        Z: string;
-        H: string;
-        O: string;
-    };
-    G: {
-        H: string;
-        O: string;
-    };
-    U: {
-        L: string;
-        H: string;
-        O: string;
-    };
-    OH: {
-        UH: string;
-        UO: string;
-        ZH: string;
-        ZO: string;
-        KH: string;
-        KO: string;
-        LH: string;
-        LO: string;
-        GH: string;
-        GO: string;
-    };
-    X: {
-        UH2O: string;
-        UHO2: string;
-        LH2O: string;
-        LHO2: string;
-        KH2O: string;
-        KHO2: string;
-        ZH2O: string;
-        ZHO2: string;
-        GH2O: string;
-        GHO2: string;
-    };
-    ZK: {
-        UL: string;
-    };
-    UL: {
-        ZK: string;
-    };
-    LH: {
-        OH: string;
-    };
-    ZH: {
-        OH: string;
-    };
-    GH: {
-        OH: string;
-    };
-    KH: {
-        OH: string;
-    };
-    UH: {
-        OH: string;
-    };
-    LO: {
-        OH: string;
-    };
-    ZO: {
-        OH: string;
-    };
-    KO: {
-        OH: string;
-    };
-    UO: {
-        OH: string;
-    };
-    GO: {
-        OH: string;
-    };
-    LH2O: {
-        X: string;
-    };
-    KH2O: {
-        X: string;
-    };
-    ZH2O: {
-        X: string;
-    };
-    UH2O: {
-        X: string;
-    };
-    GH2O: {
-        X: string;
-    };
-    LHO2: {
-        X: string;
-    };
-    UHO2: {
-        X: string;
-    };
-    KHO2: {
-        X: string;
-    };
-    ZHO2: {
-        X: string;
-    };
-    GHO2: {
-        X: string;
+    [reagent: string]: {
+        [reagent: string]: string;
     };
 };
 declare var BOOSTS: {
-    work: {
-        UO: {
-            harvest: number;
-        };
-        UHO2: {
-            harvest: number;
-        };
-        XUHO2: {
-            harvest: number;
-        };
-        LH: {
-            build: number;
-            repair: number;
-        };
-        LH2O: {
-            build: number;
-            repair: number;
-        };
-        XLH2O: {
-            build: number;
-            repair: number;
-        };
-        ZH: {
-            dismantle: number;
-        };
-        ZH2O: {
-            dismantle: number;
-        };
-        XZH2O: {
-            dismantle: number;
-        };
-        GH: {
-            upgradeController: number;
-        };
-        GH2O: {
-            upgradeController: number;
-        };
-        XGH2O: {
-            upgradeController: number;
-        };
-    };
-    attack: {
-        UH: {
-            attack: number;
-        };
-        UH2O: {
-            attack: number;
-        };
-        XUH2O: {
-            attack: number;
-        };
-    };
-    ranged_attack: {
-        KO: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-        KHO2: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-        XKHO2: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-    };
-    heal: {
-        LO: {
-            heal: number;
-            rangedHeal: number;
-        };
-        LHO2: {
-            heal: number;
-            rangedHeal: number;
-        };
-        XLHO2: {
-            heal: number;
-            rangedHeal: number;
-        };
-    };
-    carry: {
-        KH: {
-            capacity: number;
-        };
-        KH2O: {
-            capacity: number;
-        };
-        XKH2O: {
-            capacity: number;
-        };
-    };
-    move: {
-        ZO: {
-            fatigue: number;
-        };
-        ZHO2: {
-            fatigue: number;
-        };
-        XZHO2: {
-            fatigue: number;
-        };
-    };
-    tough: {
-        GO: {
-            damage: number;
-        };
-        GHO2: {
-            damage: number;
-        };
-        XGHO2: {
-            damage: number;
+    [part: string]: {
+        [boost: string]: {
+            [action: string]: number;
         };
     };
 };
@@ -575,6 +341,8 @@ declare var LOOK_FLAGS: string;
 declare var LOOK_CONSTRUCTION_SITES: string;
 declare var LOOK_NUKES: string;
 declare var LOOK_TERRAIN: string;
+declare var ORDER_SELL: string;
+declare var ORDER_BUY: string;
 /**
  * A site of a structure which is currently under construction.
  */
@@ -963,7 +731,7 @@ interface Game {
      * @param id The unique identificator.
      * @returns an object instance or null if it cannot be found.
      */
-    getObjectById<T>(id: string): T;
+    getObjectById<T>(id: string | undefined): T | null;
     /**
      * Send a custom message at your profile email. This way, you can set up notifications to yourself on any occasion within the game. You can schedule up to 20 notifications during one game tick. Not available in the Simulation Room.
      * @param message Custom text which will be sent in the message. Maximum length is 1000 characters.
@@ -1011,12 +779,12 @@ interface ReservationDefinition {
 }
 interface SignDefinition {
     username: string;
-    test: string;
+    text: string;
     time: number;
     datetime: Date;
 }
 interface StoreDefinition {
-    [resource: string]: number;
+    [resource: string]: number | undefined;
     energy?: number;
     power?: number;
 }
@@ -1024,6 +792,7 @@ interface LookAtResultWithPos {
     x: number;
     y: number;
     type: string;
+    constructionSite?: ConstructionSite;
     creep?: Creep;
     terrain?: string;
     structure?: Structure;
@@ -1031,6 +800,8 @@ interface LookAtResultWithPos {
     energy?: Resource;
     exit?: any;
     source?: Source;
+    mineral?: Mineral;
+    resource?: Resource;
 }
 interface LookAtResult {
     type: string;
@@ -1042,6 +813,8 @@ interface LookAtResult {
     source?: Source;
     structure?: Structure;
     terrain?: string;
+    mineral?: Mineral;
+    resource?: Resource;
 }
 interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix | LookAtResult[];
@@ -1072,7 +845,7 @@ interface FindPathOpts {
      * @param costMatrix The current CostMatrix
      * @returns The new CostMatrix to use
      */
-    costCallback?(roomName: string, costMatrix: CostMatrix): CostMatrix;
+    costCallback?(roomName: string, costMatrix: CostMatrix): boolean | CostMatrix;
     /**
      * An array of the room's objects or RoomPosition objects which should be treated as walkable tiles during the search. This option
      * cannot be used when the new PathFinder is enabled (use costCallback option instead).
@@ -1217,16 +990,33 @@ declare class GameMap {
      * @returns A boolean value.
      */
     isRoomAvailable(roomName: string): boolean;
+    /**
+     * Check if the room with the given name is protected by temporary "newbie" walls.
+     * Warning: Deprecated
+     * @param roomName The room name.
+     * @returns A boolean value.
+     */
+    isRoomProtected(roomName: string): boolean;
 }
 /**
  * A global object representing the in-game market. You can use this object to track resource transactions to/from your
- * terminals, and your buy/sell orders (in development). The object is accessible via the singleton Game.market property.
+ * terminals, and your buy/sell orders. The object is accessible via the singleton Game.market property.
  */
 declare class Market {
+    /**
+     * Your current credits balance.
+     */
+    credits: number;
     /**
      * An array of the last 100 incoming transactions to your terminals
      */
     incomingTransactions: Transaction[];
+    /**
+     * An object with your active and inactive buy/sell orders on the market.
+     */
+    orders: {
+        [key: string]: Order;
+    };
     /**
      * An array of the last 100 outgoing transactions from your terminals
      */
@@ -1253,6 +1043,19 @@ declare class Market {
      */
     changeOrderPrice(orderId: string, newPrice: number): number;
     /**
+     * Create a market order in your terminal. You will be charged price*amount*0.05 credits when the order is placed.
+     * The maximum orders count is 20 per player. You can create an order at any time with any amount,
+     * it will be automatically activated and deactivated depending on the resource/credits availability.
+     */
+    createOrder(type: string, resourceType: string, price: number, totalAmount: number, roomName?: string): number;
+    /**
+     * Execute a trade deal from your Terminal to another player's Terminal using the specified buy/sell order.
+     * Your Terminal will be charged energy units of transfer cost regardless of the order resource type.
+     * You can use Game.market.calcTransactionCost method to estimate it.
+     * When multiple players try to execute the same deal, the one with the shortest distance takes precedence.
+     */
+    deal(orderId: string, amount: number, targetRoomName?: string): number;
+    /**
      * Add more capacity to an existing order. It will affect remainingAmount and totalAmount properties. You will be charged price*addAmount*0.05 credits.
      * @param orderId The order ID as provided in Game.market.orders
      * @param addAmount How much capacity to add. Cannot be a negative value.
@@ -1264,21 +1067,21 @@ declare class Market {
      * @param filter (optional) An object or function that will filter the resulting list using the lodash.filter method.
      * @returns An array of objects containing order information.
      */
-    getAllOrders(filter: any): [Order];
+    getAllOrders(filter?: OrderFilter | ((o: Order) => boolean)): Order[];
     /**
      * Retrieve info for specific market order.
      * @param orderId The order ID
      * @returns An object with the order info. See getAllOrders for properties explanation.
      */
-    getOrderById(id: string): Order;
+    getOrderById(id: string): Order | null;
 }
 interface Transaction {
     transactionId: string;
     time: number;
-    sender: {
+    sender?: {
         username: string;
     };
-    recipient: {
+    recipient?: {
         username: string;
     };
     resourceType: string;
@@ -1290,12 +1093,24 @@ interface Transaction {
 interface Order {
     id: string;
     created: number;
+    active?: boolean;
     type: string;
     resourceType: string;
-    roomName: string;
+    roomName?: string;
     amount: number;
     remainingAmount: number;
+    totalAmount?: number;
     price: number;
+}
+interface OrderFilter {
+    id?: string;
+    created?: number;
+    type?: string;
+    resourceType?: string;
+    roomName?: string;
+    amount?: number;
+    remainingAmount?: number;
+    price?: number;
 }
 interface Memory {
     [name: string]: any;
@@ -1377,10 +1192,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition | {
         pos: RoomPosition;
         range: number;
-    }, opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }, opts?: PathFinderOpts): PathFinderPath;
     /**
      * Find an optimal path between origin and goal.
      *
@@ -1391,10 +1203,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition[] | {
         pos: RoomPosition;
         range: number;
-    }[], opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }[], opts?: PathFinderOpts): PathFinderPath;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
      * This method should be invoked every tick. It affects the following methods behavior:
@@ -1403,6 +1212,20 @@ interface PathFinder {
      * @param isEnabled Whether to activate the new pathfinder or deactivate.
      */
     use(isEnabled: boolean): any;
+}
+/**
+ * An object containing:
+ * path - An array of RoomPosition objects.
+ * ops - Total number of operations performed before this path was calculated.
+ * cost - The total cost of the path as derived from `plainCost`, `swampCost` and any given CostMatrix instances.
+ * incomplete - If the pathfinder fails to find a complete path, this will be true.
+ *   Note that `path` will still be populated with a partial path which represents the closest path it could find given the search parameters.
+ */
+interface PathFinderPath {
+    path: RoomPosition[];
+    ops: number;
+    cost: number;
+    incomplete: boolean;
 }
 /**
  * An object containing additional pathfinding flags.
@@ -1707,7 +1530,7 @@ declare class Room {
     /**
      * The Controller structure of this room, if present, otherwise undefined.
      */
-    controller: Controller;
+    controller: Controller | undefined;
     /**
      * Total amount of energy available in all spawns and extensions in the room.
      */
@@ -1732,15 +1555,15 @@ declare class Room {
     /**
      * The Storage structure of this room, if present, otherwise undefined.
      */
-    storage: StructureStorage;
+    storage: StructureStorage | undefined;
     /**
      * An object with survival game info if available
      */
-    survivalInfo: SurvivalGameInfo;
+    survivalInfo: SurvivalGameInfo | undefined;
     /**
      * The Terminal structure of this room, if present, otherwise undefined.
      */
-    terminal: Terminal;
+    terminal: Terminal | undefined;
     /**
      * Create new ConstructionSite at the specified location.
      * @param x The X position.
@@ -1784,7 +1607,7 @@ declare class Room {
      * @returns An array with the objects found.
      */
     find<T>(type: number, opts?: {
-        filter: any | string;
+        filter: Object | Function | string;
     }): T[];
     /**
      * Find the exit direction en route to another room.
@@ -1807,7 +1630,7 @@ declare class Room {
      * @param y The Y position.
      * @returns A RoomPosition object or null if it cannot be obtained.
      */
-    getPositionAt(x: number, y: number): RoomPosition;
+    getPositionAt(x: number, y: number): RoomPosition | null;
     /**
      * Get the list of objects at the specified room position.
      * @param x The X position.
@@ -2168,7 +1991,7 @@ declare class StructureKeeperLair extends OwnedStructure {
     /**
      * Time to spawning of the next Source Keeper.
      */
-    ticksToSpawn: number;
+    ticksToSpawn: number | undefined;
 }
 /**
  * Provides visibility into a distant room from your script.
