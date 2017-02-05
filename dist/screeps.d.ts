@@ -214,6 +214,7 @@ declare var RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE: string;
 declare var RESOURCE_CATALYZED_GHODIUM_ACID: string;
 declare var RESOURCE_CATALYZED_GHODIUM_ALKALIDE: string;
 declare var RESOURCES_ALL: string[];
+declare var SUBSCRIPTION_TOKEN: string;
 declare var CONTROLLER_LEVELS: {
     [level: number]: number;
 };
@@ -319,249 +320,14 @@ declare var NUKE_DAMAGE: {
     4: number;
 };
 declare var REACTIONS: {
-    H: {
-        O: string;
-        L: string;
-        K: string;
-        U: string;
-        Z: string;
-        G: string;
-    };
-    O: {
-        H: string;
-        L: string;
-        K: string;
-        U: string;
-        Z: string;
-        G: string;
-    };
-    Z: {
-        K: string;
-        H: string;
-        O: string;
-    };
-    L: {
-        U: string;
-        H: string;
-        O: string;
-    };
-    K: {
-        Z: string;
-        H: string;
-        O: string;
-    };
-    G: {
-        H: string;
-        O: string;
-    };
-    U: {
-        L: string;
-        H: string;
-        O: string;
-    };
-    OH: {
-        UH: string;
-        UO: string;
-        ZH: string;
-        ZO: string;
-        KH: string;
-        KO: string;
-        LH: string;
-        LO: string;
-        GH: string;
-        GO: string;
-    };
-    X: {
-        UH2O: string;
-        UHO2: string;
-        LH2O: string;
-        LHO2: string;
-        KH2O: string;
-        KHO2: string;
-        ZH2O: string;
-        ZHO2: string;
-        GH2O: string;
-        GHO2: string;
-    };
-    ZK: {
-        UL: string;
-    };
-    UL: {
-        ZK: string;
-    };
-    LH: {
-        OH: string;
-    };
-    ZH: {
-        OH: string;
-    };
-    GH: {
-        OH: string;
-    };
-    KH: {
-        OH: string;
-    };
-    UH: {
-        OH: string;
-    };
-    LO: {
-        OH: string;
-    };
-    ZO: {
-        OH: string;
-    };
-    KO: {
-        OH: string;
-    };
-    UO: {
-        OH: string;
-    };
-    GO: {
-        OH: string;
-    };
-    LH2O: {
-        X: string;
-    };
-    KH2O: {
-        X: string;
-    };
-    ZH2O: {
-        X: string;
-    };
-    UH2O: {
-        X: string;
-    };
-    GH2O: {
-        X: string;
-    };
-    LHO2: {
-        X: string;
-    };
-    UHO2: {
-        X: string;
-    };
-    KHO2: {
-        X: string;
-    };
-    ZHO2: {
-        X: string;
-    };
-    GHO2: {
-        X: string;
+    [reagent: string]: {
+        [reagent: string]: string;
     };
 };
 declare var BOOSTS: {
-    work: {
-        UO: {
-            harvest: number;
-        };
-        UHO2: {
-            harvest: number;
-        };
-        XUHO2: {
-            harvest: number;
-        };
-        LH: {
-            build: number;
-            repair: number;
-        };
-        LH2O: {
-            build: number;
-            repair: number;
-        };
-        XLH2O: {
-            build: number;
-            repair: number;
-        };
-        ZH: {
-            dismantle: number;
-        };
-        ZH2O: {
-            dismantle: number;
-        };
-        XZH2O: {
-            dismantle: number;
-        };
-        GH: {
-            upgradeController: number;
-        };
-        GH2O: {
-            upgradeController: number;
-        };
-        XGH2O: {
-            upgradeController: number;
-        };
-    };
-    attack: {
-        UH: {
-            attack: number;
-        };
-        UH2O: {
-            attack: number;
-        };
-        XUH2O: {
-            attack: number;
-        };
-    };
-    ranged_attack: {
-        KO: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-        KHO2: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-        XKHO2: {
-            rangedAttack: number;
-            rangedMassAttack: number;
-        };
-    };
-    heal: {
-        LO: {
-            heal: number;
-            rangedHeal: number;
-        };
-        LHO2: {
-            heal: number;
-            rangedHeal: number;
-        };
-        XLHO2: {
-            heal: number;
-            rangedHeal: number;
-        };
-    };
-    carry: {
-        KH: {
-            capacity: number;
-        };
-        KH2O: {
-            capacity: number;
-        };
-        XKH2O: {
-            capacity: number;
-        };
-    };
-    move: {
-        ZO: {
-            fatigue: number;
-        };
-        ZHO2: {
-            fatigue: number;
-        };
-        XZHO2: {
-            fatigue: number;
-        };
-    };
-    tough: {
-        GO: {
-            damage: number;
-        };
-        GHO2: {
-            damage: number;
-        };
-        XGHO2: {
-            damage: number;
+    [part: string]: {
+        [boost: string]: {
+            [action: string]: number;
         };
     };
 };
@@ -575,6 +341,8 @@ declare var LOOK_FLAGS: string;
 declare var LOOK_CONSTRUCTION_SITES: string;
 declare var LOOK_NUKES: string;
 declare var LOOK_TERRAIN: string;
+declare var ORDER_SELL: string;
+declare var ORDER_BUY: string;
 /**
  * A site of a structure which is currently under construction.
  */
@@ -963,7 +731,7 @@ interface Game {
      * @param id The unique identifier.
      * @returns an object instance or null if it cannot be found.
      */
-    getObjectById<T>(id: string): T;
+    getObjectById<T>(id: string | undefined): T | null;
     /**
      * Send a custom message at your profile email. This way, you can set up notifications to yourself on any occasion within the game. You can schedule up to 20 notifications during one game tick. Not available in the Simulation Room.
      * @param message Custom text which will be sent in the message. Maximum length is 1000 characters.
@@ -1011,12 +779,12 @@ interface ReservationDefinition {
 }
 interface SignDefinition {
     username: string;
-    test: string;
+    text: string;
     time: number;
     datetime: Date;
 }
 interface StoreDefinition {
-    [resource: string]: number;
+    [resource: string]: number | undefined;
     energy?: number;
     power?: number;
 }
@@ -1024,6 +792,7 @@ interface LookAtResultWithPos {
     x: number;
     y: number;
     type: string;
+    constructionSite?: ConstructionSite;
     creep?: Creep;
     terrain?: string;
     structure?: Structure;
@@ -1031,6 +800,8 @@ interface LookAtResultWithPos {
     energy?: Resource;
     exit?: any;
     source?: Source;
+    mineral?: Mineral;
+    resource?: Resource;
 }
 interface LookAtResult {
     type: string;
@@ -1042,6 +813,8 @@ interface LookAtResult {
     source?: Source;
     structure?: Structure;
     terrain?: string;
+    mineral?: Mineral;
+    resource?: Resource;
 }
 interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix | LookAtResult[];
@@ -1072,7 +845,7 @@ interface FindPathOpts {
      * @param costMatrix The current CostMatrix
      * @returns The new CostMatrix to use
      */
-    costCallback?(roomName: string, costMatrix: CostMatrix): CostMatrix;
+    costCallback?(roomName: string, costMatrix: CostMatrix): boolean | CostMatrix;
     /**
      * An array of the room's objects or RoomPosition objects which should be treated as walkable tiles during the search. This option
      * cannot be used when the new PathFinder is enabled (use costCallback option instead).
@@ -1146,6 +919,14 @@ interface SurvivalGameInfo {
     wave: number;
 }
 /**
+ * The options that can be accepted by `findRoute()` and friends.
+ */
+interface RouteOptions {
+    routeCallback: {
+        (roomName: string, fromRoomName: string): any;
+    };
+}
+/**
  * A global object representing world map. Use it to navigate between rooms. The object is accessible via Game.map property.
  */
 declare class GameMap {
@@ -1155,33 +936,31 @@ declare class GameMap {
      * @returns The exits information or null if the room not found.
      */
     describeExits(roomName: string): {
-        "1": string;
-        "3": string;
-        "5": string;
-        "7": string;
+        "1"?: string;
+        "3"?: string;
+        "5"?: string;
+        "7"?: string;
     };
     /**
      * Find the exit direction from the given room en route to another room.
      * @param fromRoom Start room name or room object.
      * @param toRoom Finish room name or room object.
+     * @param opts (optional) An object with the pathfinding options.
      * @return The room direction constant, one of the following:
      * FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT
      * Or one of the following Result codes:
      * ERR_NO_PATH, ERR_INVALID_ARGS
      */
-    findExit(fromRoom: string | Room, toRoom: string | Room): string | number;
+    findExit(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): number;
     /**
      * Find route from the given room to another room.
      * @param fromRoom Start room name or room object.
      * @param toRoom Finish room name or room object.
+     * @param opts (optional) An object with the pathfinding options.
      * @returns the route array or ERR_NO_PATH code
      */
-    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: {
-        routeCallback: {
-            (roomName: string, fromRoomName: string): any;
-        };
-    }): {
-        exit: string;
+    findRoute(fromRoom: string | Room, toRoom: string | Room, opts?: RouteOptions): {
+        exit: number;
         room: string;
     }[] | number;
     /**
@@ -1189,14 +968,10 @@ declare class GameMap {
      * sending resources through terminals, or using observers and nukes.
      * @param roomName1 The name of the first room.
      * @param roomName2 The name of the second room.
+     * @param continuous Whether to treat the world map continuous on borders. Set to true if you
+     *                   want to calculate the trade or terminal send cost. Default is false.
      */
     getRoomLinearDistance(roomName1: string, roomName2: string, continuous?: boolean): number;
-    /**
-     * Check if the room with the given name is protected by temporary "newbie" walls.
-     * @param roomName1 The name of the first room.
-     * @param roomName2 The name of the second room.
-     * @param continuous Whether to treat the world map continuous on borders. Set to true if you want to calculate the trade or terminal send cost. Default is false.
-     */
     /**
      * Get terrain type at the specified room position. This method works for any room in the world even if you have no access to it.
      * @param x X position in the room.
@@ -1215,23 +990,26 @@ declare class GameMap {
      * @returns A boolean value.
      */
     isRoomAvailable(roomName: string): boolean;
-    /**
-     * Check if the room with the given name is protected by temporary "newbie" walls.
-     * Warning: Deprecated
-     * @param roomName The room name.
-     * @returns A boolean value.
-     */
-    isRoomProtected(roomName: string): boolean;
 }
 /**
  * A global object representing the in-game market. You can use this object to track resource transactions to/from your
- * terminals, and your buy/sell orders (in development). The object is accessible via the singleton Game.market property.
+ * terminals, and your buy/sell orders. The object is accessible via the singleton Game.market property.
  */
 declare class Market {
+    /**
+     * Your current credits balance.
+     */
+    credits: number;
     /**
      * An array of the last 100 incoming transactions to your terminals
      */
     incomingTransactions: Transaction[];
+    /**
+     * An object with your active and inactive buy/sell orders on the market.
+     */
+    orders: {
+        [key: string]: Order;
+    };
     /**
      * An array of the last 100 outgoing transactions from your terminals
      */
@@ -1258,6 +1036,19 @@ declare class Market {
      */
     changeOrderPrice(orderId: string, newPrice: number): number;
     /**
+     * Create a market order in your terminal. You will be charged price*amount*0.05 credits when the order is placed.
+     * The maximum orders count is 20 per player. You can create an order at any time with any amount,
+     * it will be automatically activated and deactivated depending on the resource/credits availability.
+     */
+    createOrder(type: string, resourceType: string, price: number, totalAmount: number, roomName?: string): number;
+    /**
+     * Execute a trade deal from your Terminal to another player's Terminal using the specified buy/sell order.
+     * Your Terminal will be charged energy units of transfer cost regardless of the order resource type.
+     * You can use Game.market.calcTransactionCost method to estimate it.
+     * When multiple players try to execute the same deal, the one with the shortest distance takes precedence.
+     */
+    deal(orderId: string, amount: number, targetRoomName?: string): number;
+    /**
      * Add more capacity to an existing order. It will affect remainingAmount and totalAmount properties. You will be charged price*addAmount*0.05 credits.
      * @param orderId The order ID as provided in Game.market.orders
      * @param addAmount How much capacity to add. Cannot be a negative value.
@@ -1269,21 +1060,21 @@ declare class Market {
      * @param filter (optional) An object or function that will filter the resulting list using the lodash.filter method.
      * @returns An array of objects containing order information.
      */
-    getAllOrders(filter: any): [Order];
+    getAllOrders(filter?: OrderFilter | ((o: Order) => boolean)): Order[];
     /**
      * Retrieve info for specific market order.
      * @param orderId The order ID
      * @returns An object with the order info. See getAllOrders for properties explanation.
      */
-    getOrderById(id: string): Order;
+    getOrderById(id: string): Order | null;
 }
 interface Transaction {
     transactionId: string;
     time: number;
-    sender: {
+    sender?: {
         username: string;
     };
-    recipient: {
+    recipient?: {
         username: string;
     };
     resourceType: string;
@@ -1295,12 +1086,24 @@ interface Transaction {
 interface Order {
     id: string;
     created: number;
+    active?: boolean;
     type: string;
     resourceType: string;
-    roomName: string;
+    roomName?: string;
     amount: number;
     remainingAmount: number;
+    totalAmount?: number;
     price: number;
+}
+interface OrderFilter {
+    id?: string;
+    created?: number;
+    type?: string;
+    resourceType?: string;
+    roomName?: string;
+    amount?: number;
+    remainingAmount?: number;
+    price?: number;
 }
 interface Memory {
     [name: string]: any;
@@ -1382,10 +1185,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition | {
         pos: RoomPosition;
         range: number;
-    }, opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }, opts?: PathFinderOpts): PathFinderPath;
     /**
      * Find an optimal path between origin and goal.
      *
@@ -1396,10 +1196,7 @@ interface PathFinder {
     search(origin: RoomPosition, goal: RoomPosition[] | {
         pos: RoomPosition;
         range: number;
-    }[], opts?: PathFinderOpts): {
-        path: RoomPosition[];
-        ops: number;
-    };
+    }[], opts?: PathFinderOpts): PathFinderPath;
     /**
      * Specify whether to use this new experimental pathfinder in game objects methods.
      * This method should be invoked every tick. It affects the following methods behavior:
@@ -1408,6 +1205,20 @@ interface PathFinder {
      * @param isEnabled Whether to activate the new pathfinder or deactivate.
      */
     use(isEnabled: boolean): any;
+}
+/**
+ * An object containing:
+ * path - An array of RoomPosition objects.
+ * ops - Total number of operations performed before this path was calculated.
+ * cost - The total cost of the path as derived from `plainCost`, `swampCost` and any given CostMatrix instances.
+ * incomplete - If the pathfinder fails to find a complete path, this will be true.
+ *   Note that `path` will still be populated with a partial path which represents the closest path it could find given the search parameters.
+ */
+interface PathFinderPath {
+    path: RoomPosition[];
+    ops: number;
+    cost: number;
+    incomplete: boolean;
 }
 /**
  * An object containing additional pathfinding flags.
@@ -1705,6 +1516,92 @@ declare class RoomPosition {
      */
     lookFor<T>(type: string): T[];
 }
+declare class RoomVisual {
+    /** The name of the room. */
+    roomName: string;
+    /**
+     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
+     * @param roomName The room name.
+     */
+    constructor(roomName: string);
+    /**
+     * Draw a line.
+     * @param x1 The start X coordinate.
+     * @param y1 The start Y coordinate.
+     * @param x2 The finish X coordinate.
+     * @param y2 The finish Y coordinate.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
+    /**
+     * Draw a circle.
+     * @param x The X coordinate of the center.
+     * @param y The Y coordinate of the center.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    circle(x: number, y: number, style?: CircleStyle): RoomVisual;
+    /**
+     * Draw a rectangle.
+     * @param x The X coordinate of the top-left corner.
+     * @param y The Y coordinate of the top-left corner.
+     * @param w The width of the rectangle.
+     * @param h The height of the rectangle.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(x: number, y: number, w: number, h: number, style?: PolyStyle): RoomVisual;
+    /**
+     * Draw a polygon.
+     * @param points An array of point coordinate arrays, i.e. [[0,0], [5,5], [5,10]].
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    poly(points: [number, number][], style?: PolyStyle): RoomVisual;
+    /**
+     * Draw a text label.
+     * @param text The text message.
+     * @param x The X coordinate of the label baseline center point.
+     * @param y The Y coordinate of the label baseline center point.
+     * @param style The (optional) text style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+    /**
+     * Remove all visuals from the room.
+     * @returns The RoomVisual object, for chaining.
+     */
+    clear(): RoomVisual;
+    /**
+     * Get the stored size of all visuals added in the room in the current tick.
+     * It must not exceed 512,000 (500 KB).
+     * @returns The size of the visuals in bytes.
+     */
+    getSize(): number;
+}
+interface LineStyle {
+    width: number;
+    color: string;
+    opacity: number;
+    lineStyle: undefined | "dashed" | "dotted";
+}
+interface PolyStyle {
+    fill: string;
+    opacity: number;
+    stroke: string | undefined;
+    strokeWidth: number;
+    lineStyle: undefined | "dashed" | "dotted";
+}
+interface CircleStyle extends PolyStyle {
+    radius: number;
+}
+interface TextStyle {
+    color: string;
+    size: number;
+    align: "center" | "left" | "right";
+    opacity: number;
+}
 /**
  * An object representing the room in which your units and structures are in. It can be used to look around, find paths, etc. Every object in the room contains its linked Room instance in the room property.
  */
@@ -1712,7 +1609,7 @@ declare class Room {
     /**
      * The Controller structure of this room, if present, otherwise undefined.
      */
-    controller: Controller;
+    controller: Controller | undefined;
     /**
      * Total amount of energy available in all spawns and extensions in the room.
      */
@@ -1737,11 +1634,15 @@ declare class Room {
     /**
      * The Storage structure of this room, if present, otherwise undefined.
      */
-    storage: StructureStorage;
+    storage: StructureStorage | undefined;
     /**
      * The Terminal structure of this room, if present, otherwise undefined.
      */
-    terminal: Terminal;
+    terminal: Terminal | undefined;
+    /**
+     * The RoomVisual object for this room.
+     */
+    visual: RoomVisual;
     /**
      * Create new ConstructionSite at the specified location.
      * @param x The X position.
@@ -1785,7 +1686,7 @@ declare class Room {
      * @returns An array with the objects found.
      */
     find<T>(type: number, opts?: {
-        filter: any | string;
+        filter: Object | Function | string;
     }): T[];
     /**
      * Find the exit direction en route to another room.
@@ -1808,7 +1709,7 @@ declare class Room {
      * @param y The Y position.
      * @returns A RoomPosition object or null if it cannot be obtained.
      */
-    getPositionAt(x: number, y: number): RoomPosition;
+    getPositionAt(x: number, y: number): RoomPosition | null;
     /**
      * Get the list of objects at the specified room position.
      * @param x The X position.
@@ -2140,7 +2041,7 @@ declare class StructureKeeperLair extends OwnedStructure {
     /**
      * Time to spawning of the next Source Keeper.
      */
-    ticksToSpawn: number;
+    ticksToSpawn: number | undefined;
 }
 /**
  * Provides visibility into a distant room from your script.

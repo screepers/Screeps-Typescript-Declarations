@@ -7,7 +7,7 @@ declare class Room {
     /**
      * The Controller structure of this room, if present, otherwise undefined.
      */
-    controller: Controller;
+    controller: Controller | undefined;
     /**
      * Total amount of energy available in all spawns and extensions in the room.
      */
@@ -32,11 +32,15 @@ declare class Room {
     /**
      * The Storage structure of this room, if present, otherwise undefined.
      */
-    storage: StructureStorage;
+    storage: StructureStorage | undefined;
     /**
      * The Terminal structure of this room, if present, otherwise undefined.
      */
-    terminal: Terminal;
+    terminal: Terminal | undefined;
+    /**
+     * The RoomVisual object for this room.
+     */
+    visual: RoomVisual;
     /**
      * Create new ConstructionSite at the specified location.
      * @param x The X position.
@@ -75,7 +79,7 @@ declare class Room {
      * @param opts An object with additional options
      * @returns An array with the objects found.
      */
-    find<T>(type: number, opts?: {filter: any|string}): T[];
+    find<T>(type: number, opts?: {filter: Object | Function | string}): T[];
     /**
      * Find the exit direction en route to another room.
      * @param room Another room name or room object.
@@ -97,7 +101,7 @@ declare class Room {
      * @param y The Y position.
      * @returns A RoomPosition object or null if it cannot be obtained.
      */
-    getPositionAt(x: number, y: number): RoomPosition;
+    getPositionAt(x: number, y: number): RoomPosition | null;
     /**
      * Get the list of objects at the specified room position.
      * @param x The X position.
