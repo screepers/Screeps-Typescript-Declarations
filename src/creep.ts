@@ -40,7 +40,7 @@ declare class Creep extends RoomObject{
     /**
      * A shorthand to Memory.creeps[creep.name]. You can use it for quick access the creep’s specific memory data object.
      */
-    memory: any;
+    memory: CreepMemory;
     /**
      * Whether it is your creep or foe.
      */

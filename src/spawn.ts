@@ -14,7 +14,7 @@ declare class Spawn extends OwnedStructure{
     /**
      * A shorthand to Memory.spawns[spawn.name]. You can use it for quick access the spawn’s specific memory data object.
      */
-    memory: any;
+    memory: SpawnMemory;
     /**
      * Spawn’s name. You choose the name upon creating a new spawn, and it cannot be changed later. This name is a hash key to access the spawn via the Game.spawns object.
      */
@@ -46,7 +46,7 @@ declare class Spawn extends OwnedStructure{
      * @param name The name of a new creep. It should be unique creep name, i.e. the Game.creeps object should not contain another creep with the same name (hash key). If not defined, a random name will be generated.
      * @param memory The memory of a new creep. If provided, it will be immediately stored into Memory.creeps[name].
      */
-    createCreep(body: string[], name?: string, memory?: any): number | string;
+    createCreep(body: string[], name?: string, memory?: CreepMemory): number | string;
     /**
      * Destroy this spawn immediately.
      */
