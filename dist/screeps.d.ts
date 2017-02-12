@@ -468,6 +468,10 @@ interface Creep extends RoomObject {
      */
     owner: Owner;
     /**
+     * The link to the Room object. Always defined because creeps give visibility into the room they're in.
+     */
+    room: Room;
+    /**
      * Whether this creep is still being spawned.
      */
     spawning: boolean;
@@ -1994,6 +1998,10 @@ interface OwnedStructure extends Structure {
      * An object with the structure’s owner info (if present) containing the following properties: username
      */
     owner: Owner;
+    /**
+     * The link to the Room object. Is always present because owned structures give visibility.
+     */
+    room: Room;
 }
 interface OwnedStructureConstructor extends _Constructor<OwnedStructure>, _ConstructorById<OwnedStructure> {
 }
