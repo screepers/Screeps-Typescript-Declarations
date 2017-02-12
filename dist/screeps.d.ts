@@ -855,11 +855,11 @@ interface SignDefinition {
     time: number;
     datetime: Date;
 }
-interface StoreDefinition {
-    [resource: string]: number | undefined;
-    energy?: number;
-    power?: number;
-}
+declare type StoreDefinition = ({
+    [resource in RESOURCES_ALL]?: number | undefined;
+} & {
+    energy: number;
+});
 interface LookAtResultWithPos {
     x: number;
     y: number;

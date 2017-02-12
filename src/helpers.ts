@@ -45,11 +45,11 @@ interface SignDefinition {
     time: number,
     datetime: Date;
 }
-interface StoreDefinition {
-    [resource: string]: number | undefined;
-    energy?: number;
-    power?: number;
-}
+
+type StoreDefinition = (
+    & {[resource in RESOURCES_ALL]?: number | undefined;}
+    & {energy: number} // Energy is consistently always defined, defaulting to 0
+)
 
 interface LookAtResultWithPos {
     x: number;
