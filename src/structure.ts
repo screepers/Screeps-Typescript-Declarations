@@ -56,6 +56,10 @@ interface OwnedStructure extends Structure {
      * An object with the structure’s owner info (if present) containing the following properties: username
      */
     owner: Owner;
+    /**
+     * The link to the Room object. Is always present because owned structures give visibility.
+     */
+    room: Room;
 
 }
 
