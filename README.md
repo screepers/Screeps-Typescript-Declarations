@@ -1,3 +1,5 @@
+** This repo has been moved to [typed-screeps](https://github.com/bryanbecker/typed-screeps) **
+
 # Typed-Screeps
 
 > The forked repository for **strong** *Screep's* TypeScript type definitions. https://screeps.com/
