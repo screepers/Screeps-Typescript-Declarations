@@ -181,50 +181,94 @@ declare const STRUCTURE_TERMINAL: "terminal";
 declare const STRUCTURE_CONTAINER: "container";
 declare const STRUCTURE_NUKER: "nuker";
 declare const STRUCTURE_PORTAL: "portal";
-declare const RESOURCE_ENERGY: "energy";
-declare const RESOURCE_POWER: "power";
-declare const RESOURCE_UTRIUM: "U";
-declare const RESOURCE_LEMERGIUM: "L";
-declare const RESOURCE_KEANIUM: "K";
-declare const RESOURCE_GHODIUM: "G";
-declare const RESOURCE_ZYNTHIUM: "Z";
-declare const RESOURCE_OXYGEN: "O";
-declare const RESOURCE_HYDROGEN: "H";
-declare const RESOURCE_CATALYST: "X";
-declare const RESOURCE_HYDROXIDE: "OH";
-declare const RESOURCE_ZYNTHIUM_KEANITE: "ZK";
-declare const RESOURCE_UTRIUM_LEMERGITE: "UL";
-declare const RESOURCE_UTRIUM_HYDRIDE: "UH";
-declare const RESOURCE_UTRIUM_OXIDE: "UO";
-declare const RESOURCE_KEANIUM_HYDRIDE: "KH";
-declare const RESOURCE_KEANIUM_OXIDE: "KO";
-declare const RESOURCE_LEMERGIUM_HYDRIDE: "LH";
-declare const RESOURCE_LEMERGIUM_OXIDE: "LO";
-declare const RESOURCE_ZYNTHIUM_HYDRIDE: "ZH";
-declare const RESOURCE_ZYNTHIUM_OXIDE: "ZO";
-declare const RESOURCE_GHODIUM_HYDRIDE: "GH";
-declare const RESOURCE_GHODIUM_OXIDE: "GO";
-declare const RESOURCE_UTRIUM_ACID: "UH2O";
-declare const RESOURCE_UTRIUM_ALKALIDE: "UHO2";
-declare const RESOURCE_KEANIUM_ACID: "KH2O";
-declare const RESOURCE_KEANIUM_ALKALIDE: "KHO2";
-declare const RESOURCE_LEMERGIUM_ACID: "LH2O";
-declare const RESOURCE_LEMERGIUM_ALKALIDE: "LHO2";
-declare const RESOURCE_ZYNTHIUM_ACID: "ZH2O";
-declare const RESOURCE_ZYNTHIUM_ALKALIDE: "ZHO2";
-declare const RESOURCE_GHODIUM_ACID: "GH2O";
-declare const RESOURCE_GHODIUM_ALKALIDE: "GHO2";
-declare const RESOURCE_CATALYZED_UTRIUM_ACID: "XUH2O";
-declare const RESOURCE_CATALYZED_UTRIUM_ALKALIDE: "XUHO2";
-declare const RESOURCE_CATALYZED_KEANIUM_ACID: "XKH2O";
-declare const RESOURCE_CATALYZED_KEANIUM_ALKALIDE: "XKHO2";
-declare const RESOURCE_CATALYZED_LEMERGIUM_ACID: "XLH2O";
-declare const RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE: "XLHO2";
-declare const RESOURCE_CATALYZED_ZYNTHIUM_ACID: "XZH2O";
-declare const RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE: "ZXHO2";
-declare const RESOURCE_CATALYZED_GHODIUM_ACID: "XGH2O";
-declare const RESOURCE_CATALYZED_GHODIUM_ALKALIDE: "XGHO2";
-declare const RESOURCES_ALL: string[];
+declare type RESOURCE_ENERGY = "energy";
+declare const RESOURCE_ENERGY: RESOURCE_ENERGY;
+declare type RESOURCE_POWER = "power";
+declare const RESOURCE_POWER: RESOURCE_POWER;
+declare type RESOURCE_UTRIUM = "U";
+declare const RESOURCE_UTRIUM: RESOURCE_UTRIUM;
+declare type RESOURCE_LEMERGIUM = "L";
+declare const RESOURCE_LEMERGIUM: RESOURCE_LEMERGIUM;
+declare type RESOURCE_KEANIUM = "K";
+declare const RESOURCE_KEANIUM: RESOURCE_KEANIUM;
+declare type RESOURCE_GHODIUM = "G";
+declare const RESOURCE_GHODIUM: RESOURCE_GHODIUM;
+declare type RESOURCE_ZYNTHIUM = "Z";
+declare const RESOURCE_ZYNTHIUM: RESOURCE_ZYNTHIUM;
+declare type RESOURCE_OXYGEN = "O";
+declare const RESOURCE_OXYGEN: RESOURCE_OXYGEN;
+declare type RESOURCE_HYDROGEN = "H";
+declare const RESOURCE_HYDROGEN: RESOURCE_HYDROGEN;
+declare type RESOURCE_CATALYST = "X";
+declare const RESOURCE_CATALYST: RESOURCE_CATALYST;
+declare type RESOURCE_HYDROXIDE = "OH";
+declare const RESOURCE_HYDROXIDE: RESOURCE_HYDROXIDE;
+declare type RESOURCE_ZYNTHIUM_KEANITE = "ZK";
+declare const RESOURCE_ZYNTHIUM_KEANITE: RESOURCE_ZYNTHIUM_KEANITE;
+declare type RESOURCE_UTRIUM_LEMERGITE = "UL";
+declare const RESOURCE_UTRIUM_LEMERGITE: RESOURCE_UTRIUM_LEMERGITE;
+declare type RESOURCE_UTRIUM_HYDRIDE = "UH";
+declare const RESOURCE_UTRIUM_HYDRIDE: RESOURCE_UTRIUM_HYDRIDE;
+declare type RESOURCE_UTRIUM_OXIDE = "UO";
+declare const RESOURCE_UTRIUM_OXIDE: RESOURCE_UTRIUM_OXIDE;
+declare type RESOURCE_KEANIUM_HYDRIDE = "KH";
+declare const RESOURCE_KEANIUM_HYDRIDE: RESOURCE_KEANIUM_HYDRIDE;
+declare type RESOURCE_KEANIUM_OXIDE = "KO";
+declare const RESOURCE_KEANIUM_OXIDE: RESOURCE_KEANIUM_OXIDE;
+declare type RESOURCE_LEMERGIUM_HYDRIDE = "LH";
+declare const RESOURCE_LEMERGIUM_HYDRIDE: RESOURCE_LEMERGIUM_HYDRIDE;
+declare type RESOURCE_LEMERGIUM_OXIDE = "LO";
+declare const RESOURCE_LEMERGIUM_OXIDE: RESOURCE_LEMERGIUM_OXIDE;
+declare type RESOURCE_ZYNTHIUM_HYDRIDE = "ZH";
+declare const RESOURCE_ZYNTHIUM_HYDRIDE: RESOURCE_ZYNTHIUM_HYDRIDE;
+declare type RESOURCE_ZYNTHIUM_OXIDE = "ZO";
+declare const RESOURCE_ZYNTHIUM_OXIDE: RESOURCE_ZYNTHIUM_OXIDE;
+declare type RESOURCE_GHODIUM_HYDRIDE = "GH";
+declare const RESOURCE_GHODIUM_HYDRIDE: RESOURCE_GHODIUM_HYDRIDE;
+declare type RESOURCE_GHODIUM_OXIDE = "GO";
+declare const RESOURCE_GHODIUM_OXIDE: RESOURCE_GHODIUM_OXIDE;
+declare type RESOURCE_UTRIUM_ACID = "UH2O";
+declare const RESOURCE_UTRIUM_ACID: RESOURCE_UTRIUM_ACID;
+declare type RESOURCE_UTRIUM_ALKALIDE = "UHO2";
+declare const RESOURCE_UTRIUM_ALKALIDE: RESOURCE_UTRIUM_ALKALIDE;
+declare type RESOURCE_KEANIUM_ACID = "KH2O";
+declare const RESOURCE_KEANIUM_ACID: RESOURCE_KEANIUM_ACID;
+declare type RESOURCE_KEANIUM_ALKALIDE = "KHO2";
+declare const RESOURCE_KEANIUM_ALKALIDE: RESOURCE_KEANIUM_ALKALIDE;
+declare type RESOURCE_LEMERGIUM_ACID = "LH2O";
+declare const RESOURCE_LEMERGIUM_ACID: RESOURCE_LEMERGIUM_ACID;
+declare type RESOURCE_LEMERGIUM_ALKALIDE = "LHO2";
+declare const RESOURCE_LEMERGIUM_ALKALIDE: RESOURCE_LEMERGIUM_ALKALIDE;
+declare type RESOURCE_ZYNTHIUM_ACID = "ZH2O";
+declare const RESOURCE_ZYNTHIUM_ACID: RESOURCE_ZYNTHIUM_ACID;
+declare type RESOURCE_ZYNTHIUM_ALKALIDE = "ZHO2";
+declare const RESOURCE_ZYNTHIUM_ALKALIDE: RESOURCE_ZYNTHIUM_ALKALIDE;
+declare type RESOURCE_GHODIUM_ACID = "GH2O";
+declare const RESOURCE_GHODIUM_ACID: RESOURCE_GHODIUM_ACID;
+declare type RESOURCE_GHODIUM_ALKALIDE = "GHO2";
+declare const RESOURCE_GHODIUM_ALKALIDE: RESOURCE_GHODIUM_ALKALIDE;
+declare type RESOURCE_CATALYZED_UTRIUM_ACID = "XUH2O";
+declare const RESOURCE_CATALYZED_UTRIUM_ACID: RESOURCE_CATALYZED_UTRIUM_ACID;
+declare type RESOURCE_CATALYZED_UTRIUM_ALKALIDE = "XUHO2";
+declare const RESOURCE_CATALYZED_UTRIUM_ALKALIDE: RESOURCE_CATALYZED_UTRIUM_ALKALIDE;
+declare type RESOURCE_CATALYZED_KEANIUM_ACID = "XKH2O";
+declare const RESOURCE_CATALYZED_KEANIUM_ACID: RESOURCE_CATALYZED_KEANIUM_ACID;
+declare type RESOURCE_CATALYZED_KEANIUM_ALKALIDE = "XKHO2";
+declare const RESOURCE_CATALYZED_KEANIUM_ALKALIDE: RESOURCE_CATALYZED_KEANIUM_ALKALIDE;
+declare type RESOURCE_CATALYZED_LEMERGIUM_ACID = "XLH2O";
+declare const RESOURCE_CATALYZED_LEMERGIUM_ACID: RESOURCE_CATALYZED_LEMERGIUM_ACID;
+declare type RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE = "XLHO2";
+declare const RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE: RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE;
+declare type RESOURCE_CATALYZED_ZYNTHIUM_ACID = "XZH2O";
+declare const RESOURCE_CATALYZED_ZYNTHIUM_ACID: RESOURCE_CATALYZED_ZYNTHIUM_ACID;
+declare type RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE = "ZXHO2";
+declare const RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE: RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE;
+declare type RESOURCE_CATALYZED_GHODIUM_ACID = "XGH2O";
+declare const RESOURCE_CATALYZED_GHODIUM_ACID: RESOURCE_CATALYZED_GHODIUM_ACID;
+declare type RESOURCE_CATALYZED_GHODIUM_ALKALIDE = "XGHO2";
+declare const RESOURCE_CATALYZED_GHODIUM_ALKALIDE: RESOURCE_CATALYZED_GHODIUM_ALKALIDE;
+declare type RESOURCES_ALL = (RESOURCE_ENERGY | RESOURCE_POWER | RESOURCE_UTRIUM | RESOURCE_LEMERGIUM | RESOURCE_KEANIUM | RESOURCE_GHODIUM | RESOURCE_ZYNTHIUM | RESOURCE_OXYGEN | RESOURCE_HYDROGEN | RESOURCE_CATALYST | RESOURCE_HYDROXIDE | RESOURCE_ZYNTHIUM_KEANITE | RESOURCE_UTRIUM_LEMERGITE | RESOURCE_UTRIUM_HYDRIDE | RESOURCE_UTRIUM_OXIDE | RESOURCE_KEANIUM_HYDRIDE | RESOURCE_KEANIUM_OXIDE | RESOURCE_LEMERGIUM_HYDRIDE | RESOURCE_LEMERGIUM_OXIDE | RESOURCE_ZYNTHIUM_HYDRIDE | RESOURCE_ZYNTHIUM_OXIDE | RESOURCE_GHODIUM_HYDRIDE | RESOURCE_GHODIUM_OXIDE | RESOURCE_UTRIUM_ACID | RESOURCE_UTRIUM_ALKALIDE | RESOURCE_KEANIUM_ACID | RESOURCE_KEANIUM_ALKALIDE | RESOURCE_LEMERGIUM_ACID | RESOURCE_LEMERGIUM_ALKALIDE | RESOURCE_ZYNTHIUM_ACID | RESOURCE_ZYNTHIUM_ALKALIDE | RESOURCE_GHODIUM_ACID | RESOURCE_GHODIUM_ALKALIDE | RESOURCE_CATALYZED_UTRIUM_ACID | RESOURCE_CATALYZED_UTRIUM_ALKALIDE | RESOURCE_CATALYZED_KEANIUM_ACID | RESOURCE_CATALYZED_KEANIUM_ALKALIDE | RESOURCE_CATALYZED_LEMERGIUM_ACID | RESOURCE_CATALYZED_LEMERGIUM_ALKALIDE | RESOURCE_CATALYZED_ZYNTHIUM_ACID | RESOURCE_CATALYZED_ZYNTHIUM_ALKALIDE | RESOURCE_CATALYZED_GHODIUM_ACID | RESOURCE_CATALYZED_GHODIUM_ALKALIDE);
+declare const RESOURCES_ALL: RESOURCES_ALL[];
 declare const SUBSCRIPTION_TOKEN: string;
 declare const CONTROLLER_LEVELS: {
     [level: number]: number;
@@ -815,11 +859,11 @@ interface SignDefinition {
     time: number;
     datetime: Date;
 }
-interface StoreDefinition {
-    [resource: string]: number | undefined;
-    energy?: number;
-    power?: number;
-}
+declare type StoreDefinition = ({
+    [resource in RESOURCES_ALL]?: number | undefined;
+} & {
+    energy: number;
+});
 interface LookAtResultWithPos {
     x: number;
     y: number;
@@ -882,12 +926,12 @@ interface FindPathOpts {
      * An array of the room's objects or RoomPosition objects which should be treated as walkable tiles during the search. This option
      * cannot be used when the new PathFinder is enabled (use costCallback option instead).
      */
-    ignore?: any[] | RoomPosition[];
+    ignore?: (RoomObject | RoomPosition)[];
     /**
      * An array of the room's objects or RoomPosition objects which should be treated as obstacles during the search. This option cannot
      * be used when the new PathFinder is enabled (use costCallback option instead).
      */
-    avoid?: any[] | RoomPosition[];
+    avoid?: (RoomObject | RoomPosition)[];
     /**
      * The maximum limit of possible pathfinding operations. You can limit CPU time used for the search based on ratio 1 op ~ 0.001 CPU.
      * The default value is 2000.
@@ -2430,7 +2474,7 @@ interface StructureTerminal extends OwnedStructure {
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the storage can contain.
      */
@@ -2463,7 +2507,7 @@ interface StructureContainer extends Structure {
      * An object with the structure contents. Each object key is one of the RESOURCE_* constants, values are resources
      * amounts. Use _.sum(structure.store) to get the total amount of contents
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the structure can contain.
      */
