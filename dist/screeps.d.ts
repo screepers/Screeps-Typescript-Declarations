@@ -270,6 +270,7 @@ declare const LAB_ENERGY_CAPACITY: number;
 declare const LAB_BOOST_ENERGY: number;
 declare const LAB_BOOST_MINERAL: number;
 declare const LAB_COOLDOWN: number;
+declare const LAB_REACTION_AMOUNT: number;
 declare const GCL_POW: number;
 declare const GCL_MULTIPLY: number;
 declare const GCL_NOVICE: number;
@@ -2501,15 +2502,15 @@ interface StructureNuker extends OwnedStructure {
      */
     energyCapacity: number;
     /**
-     * The amount of energy contained in this structure.
+     * The amount of ghodium contained in this structure.
      */
     ghodium: number;
     /**
-     * The total amount of energy this structure can contain.
+     * The total amount of ghodium this structure can contain.
      */
     ghodiumCapacity: number;
     /**
-     * The amount of game ticks the link has to wait until the next transfer is possible.
+     * The amount of game ticks the nuker has to wait until the next launch is possible.
      */
     cooldown: number;
     /**
