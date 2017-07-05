@@ -10,7 +10,7 @@ Using [typings](https://github.com/typings/typings), add this to your typings.js
 ```json
 {
   "globalDependencies": {
-    "screeps": "github:screepers/Screeps-Typescript-Declarations/dist/screeps.d.ts#TS2"
+    "screeps": "github:screepers/Screeps-Typescript-Declarations/dist/screeps.d.ts"
   }
 }
 ```
