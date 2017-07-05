@@ -20,6 +20,15 @@ declare class RoomVisual {
     line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
 
     /**
+     * Draw a line.
+     * @param pos1 The start position
+     * @param pos2 The finish position
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    line(pos1: RoomPosition, pos2: RoomPosition, style?: LineStyle): RoomVisual;
+
+    /**
      * Draw a circle.
      * @param x The X coordinate of the center.
      * @param y The Y coordinate of the center.
@@ -27,6 +36,14 @@ declare class RoomVisual {
      * @returns The RoomVisual object, for chaining.
      */
     circle(x: number, y: number, style?: CircleStyle): RoomVisual;
+
+    /**
+     * Draw a circle.
+     * @param pos The position object of the center.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    circle(pos: RoomPosition, style?: CircleStyle): RoomVisual;
 
     /**
      * Draw a rectangle.
@@ -38,6 +55,14 @@ declare class RoomVisual {
      * @returns The RoomVisual object, for chaining.
      */
     rect(x: number, y: number, w: number, h: number, style?: PolyStyle): RoomVisual;
+
+    /**
+     * Draw a rectangle.
+     * @param topLeftPos The position object of the top-left corner.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(topLeftPos: RoomPosition, style?: PolyStyle): RoomVisual;
 
     /**
      * Draw a polygon.
@@ -56,6 +81,15 @@ declare class RoomVisual {
      * @returns The RoomVisual object, for chaining.
      */
     text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+
+    /**
+     * Draw a text label.
+     * @param text The text message.
+     * @param pos The position object of the label baseline.
+     * @param style The (optional) text style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    text(text: string, pos: RoomPosition, style?: TextStyle): RoomVisual;
 
     /**
      * Remove all visuals from the room.
@@ -91,8 +125,12 @@ interface CircleStyle extends PolyStyle {
 }
 
 interface TextStyle {
+    backgroundColor?: string;
+    backgroundPadding?: number;
     color?: string;
-    size?: number;
+    font?: string | number;
+    stroke?: string;
+    strokeWidth?: number;
     align?: "center" | "left" | "right";
     opacity?: number;
 }
