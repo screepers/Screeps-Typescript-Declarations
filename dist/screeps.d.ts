@@ -315,6 +315,7 @@ declare const TERMINAL_CAPACITY: number;
 declare const TERMINAL_HITS: number;
 declare const TERMINAL_SEND_COST: number;
 declare const TERMINAL_MIN_SEND: number;
+declare const TERMINAL_COOLDOWN: number;
 declare const CONTAINER_HITS: number;
 declare const CONTAINER_CAPACITY: number;
 declare const CONTAINER_DECAY: number;
@@ -2460,6 +2461,10 @@ declare const StructureLab: StructureLabConstructor;
  */
 interface StructureTerminal extends OwnedStructure {
     readonly prototype: StructureTerminal;
+    /**
+     * The remaining amount of ticks while this terminal cannot be used to make StructureTerminal.send or Game.market.deal calls.
+     */
+    cooldown: number;
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
