@@ -1616,6 +1616,14 @@ declare class RoomVisual {
      */
     line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
     /**
+     * Draw a line.
+     * @param pos1 The start position object.
+     * @param pos2 The finish position object.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    line(pos1: RoomPosition, pos2: RoomPosition, style?: LineStyle): RoomVisual;
+    /**
      * Draw a circle.
      * @param x The X coordinate of the center.
      * @param y The Y coordinate of the center.
@@ -1624,15 +1632,31 @@ declare class RoomVisual {
      */
     circle(x: number, y: number, style?: CircleStyle): RoomVisual;
     /**
-     * Draw a rectangle.
-     * @param x The X coordinate of the top-left corner.
-     * @param y The Y coordinate of the top-left corner.
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
+     * Draw a circle.
+     * @param pos The position object of the center.
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    rect(x: number, y: number, w: number, h: number, style?: PolyStyle): RoomVisual;
+    circle(pos: RoomPosition, style?: CircleStyle): RoomVisual;
+    /**
+     * Draw a rectangle.
+     * @param x The X coordinate of the top-left corner.
+     * @param y The Y coordinate of the top-left corner.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(x: number, y: number, width: number, height: number, style?: PolyStyle): RoomVisual;
+    /**
+     * Draw a rectangle.
+     * @param topLeftPos The position object of the top-left corner.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(topLeftPos: RoomPosition, width: number, height: number, style?: PolyStyle): RoomVisual;
     /**
      * Draw a polygon.
      * @param points An array of point coordinate arrays, i.e. [[0,0], [5,5], [5,10]].
@@ -1643,12 +1667,20 @@ declare class RoomVisual {
     /**
      * Draw a text label.
      * @param text The text message.
+     * @param pos The position object of the label baseline.
+     * @param style The (optional) text style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+    /**
+     * Draw a text label.
+     * @param text The text message.
      * @param x The X coordinate of the label baseline center point.
      * @param y The Y coordinate of the label baseline center point.
      * @param style The (optional) text style.
      * @returns The RoomVisual object, for chaining.
      */
-    text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+    text(text: string, pos: RoomPosition, style?: TextStyle): RoomVisual;
     /**
      * Remove all visuals from the room.
      * @returns The RoomVisual object, for chaining.
