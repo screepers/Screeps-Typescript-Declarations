@@ -1695,7 +1695,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    poly(points: [number, number][], style?: PolyStyle): RoomVisual;
+    poly(points: Array<[number, number] | RoomPosition>, style?: PolyStyle): RoomVisual;
     /**
      * Draw a text label.
      * @param text The text message.
