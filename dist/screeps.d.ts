@@ -315,6 +315,7 @@ declare const TERMINAL_CAPACITY: number;
 declare const TERMINAL_HITS: number;
 declare const TERMINAL_SEND_COST: number;
 declare const TERMINAL_MIN_SEND: number;
+declare const TERMINAL_COOLDOWN: number;
 declare const CONTAINER_HITS: number;
 declare const CONTAINER_CAPACITY: number;
 declare const CONTAINER_DECAY: number;
@@ -1362,6 +1363,12 @@ interface RawMemory {
      */
     segments: string[];
     /**
+     * An object with a memory segment of another player available on this tick.
+     * Use setActiveForeignSegment to fetch segments on the next tick. The object consists of the following properties:
+     * @type {ForeignMemorySegment}
+     */
+    foreignSegment: ForeignMemorySegment;
+    /**
      * Get a raw string representation of the Memory object.
      */
     get(): string;
@@ -1375,6 +1382,31 @@ interface RawMemory {
      * @param ids An array of segment IDs. Each ID should be a number from 0 to 99. Maximum 10 segments can be active at the same time. Subsequent calls of setActiveSegments override previous ones.
      */
     setActiveSegments(ids: number[]): void;
+    /**
+     * Request a memory segment of another user.
+     * The segment should be marked by its owner as public using setPublicSegments.
+     * The segment data will become available on the next tick in foreignSegment object.
+     * You can only have access to one foreign segment at the same time.
+     * @param {(string | null)} username The name of another user. Pass null to clear the foreign segment.
+     * @param {number} [id] The ID of the requested segment from 0 to 99. If undefined, the user's default public segment is requested as set by setDefaultPublicSegment.
+     */
+    setActiveForeignSegment(username: string | null, id?: number): void;
+    /**
+     * Set the specified segment as your default public segment.
+     * It will be returned if no id parameter is passed to setActiveForeignSegment by another user.
+     * @param {(number | null)} id The ID of the memory segment from 0 to 99. Pass null to remove your default public segment.
+     */
+    setDefaultPublicSegment(id: number | null): void;
+    /**
+     * Set specified segments as public. Other users will be able to request access to them using setActiveForeignSegment.
+     * @param {number[]} ids An array of segment IDs. Each ID should be a number from 0 to 99. Subsequent calls of setPublicSegments override previous ones.
+     */
+    setPublicSegments(ids: number[]): void;
+}
+interface ForeignMemorySegment {
+    username: string;
+    id: number;
+    data: string;
 }
 /**
  * A dropped piece of resource. It will decay after a while if not picked up. Dropped resource pile decays for ceil(amount/1000) units per tick.
@@ -1616,6 +1648,14 @@ declare class RoomVisual {
      */
     line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
     /**
+     * Draw a line.
+     * @param pos1 The start position object.
+     * @param pos2 The finish position object.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    line(pos1: RoomPosition, pos2: RoomPosition, style?: LineStyle): RoomVisual;
+    /**
      * Draw a circle.
      * @param x The X coordinate of the center.
      * @param y The Y coordinate of the center.
@@ -1624,15 +1664,31 @@ declare class RoomVisual {
      */
     circle(x: number, y: number, style?: CircleStyle): RoomVisual;
     /**
-     * Draw a rectangle.
-     * @param x The X coordinate of the top-left corner.
-     * @param y The Y coordinate of the top-left corner.
-     * @param w The width of the rectangle.
-     * @param h The height of the rectangle.
+     * Draw a circle.
+     * @param pos The position object of the center.
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    rect(x: number, y: number, w: number, h: number, style?: PolyStyle): RoomVisual;
+    circle(pos: RoomPosition, style?: CircleStyle): RoomVisual;
+    /**
+     * Draw a rectangle.
+     * @param x The X coordinate of the top-left corner.
+     * @param y The Y coordinate of the top-left corner.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(x: number, y: number, width: number, height: number, style?: PolyStyle): RoomVisual;
+    /**
+     * Draw a rectangle.
+     * @param topLeftPos The position object of the top-left corner.
+     * @param width The width of the rectangle.
+     * @param height The height of the rectangle.
+     * @param style The (optional) style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    rect(topLeftPos: RoomPosition, width: number, height: number, style?: PolyStyle): RoomVisual;
     /**
      * Draw a polygon.
      * @param points An array of point coordinate arrays, i.e. [[0,0], [5,5], [5,10]].
@@ -1643,12 +1699,20 @@ declare class RoomVisual {
     /**
      * Draw a text label.
      * @param text The text message.
+     * @param pos The position object of the label baseline.
+     * @param style The (optional) text style.
+     * @returns The RoomVisual object, for chaining.
+     */
+    text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+    /**
+     * Draw a text label.
+     * @param text The text message.
      * @param x The X coordinate of the label baseline center point.
      * @param y The Y coordinate of the label baseline center point.
      * @param style The (optional) text style.
      * @returns The RoomVisual object, for chaining.
      */
-    text(text: string, x: number, y: number, style?: TextStyle): RoomVisual;
+    text(text: string, pos: RoomPosition, style?: TextStyle): RoomVisual;
     /**
      * Remove all visuals from the room.
      * @returns The RoomVisual object, for chaining.
@@ -2428,6 +2492,10 @@ declare const StructureLab: StructureLabConstructor;
  */
 interface StructureTerminal extends OwnedStructure {
     readonly prototype: StructureTerminal;
+    /**
+     * The remaining amount of ticks while this terminal cannot be used to make StructureTerminal.send or Game.market.deal calls.
+     */
+    cooldown: number;
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
