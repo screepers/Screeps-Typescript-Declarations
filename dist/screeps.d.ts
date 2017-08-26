@@ -1,7 +1,3 @@
-/**
- * This file is Screeps API description file.
- * This might need some updates when Screeps publishes new features or changes it's existing API
- */
 declare const OK: 0;
 declare const ERR_NOT_OWNER: -1;
 declare const ERR_NO_PATH: -2;
