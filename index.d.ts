@@ -1882,7 +1882,7 @@ interface Room {
      * @param color The color of a new flag. Should be one of the COLOR_* constants. The default value is COLOR_WHITE.
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      */
-    createFlag(pos: RoomPosition | { pos: RoomPosition }, name?: string, color?: number, secondaryColor?: number): number;
+    createFlag(pos: RoomPosition | { pos: RoomPosition }, name?: string, color?: number, secondaryColor?: number): number | string;
     /**
      * Find all objects of the specified type in the room.
      * @param type One of the following constants:FIND_CREEPS, FIND_MY_CREEPS, FIND_HOSTILE_CREEPS, FIND_MY_SPAWNS, FIND_HOSTILE_SPAWNS, FIND_SOURCES, FIND_SOURCES_ACTIVE, FIND_DROPPED_RESOURCES, FIND_DROPPED_ENERGY, FIND_STRUCTURES, FIND_MY_STRUCTURES, FIND_HOSTILE_STRUCTURES, FIND_FLAGS, FIND_CONSTRUCTION_SITES, FIND_EXIT_TOP, FIND_EXIT_RIGHT, FIND_EXIT_BOTTOM, FIND_EXIT_LEFT, FIND_EXIT
@@ -2046,7 +2046,7 @@ interface RoomPosition {
      * @param color The color of a new flag. Should be one of the COLOR_* constants
      * @param secondaryColor The secondary color of a new flag. Should be one of the COLOR_* constants. The default value is equal to color.
      */
-    createFlag(name?: string, color?: number, secondaryColor?: number): number;
+    createFlag(name?: string, color?: number, secondaryColor?: number): number | string;
     /**
      * Find an object with the shortest path from the given position. Uses A* search algorithm and Dijkstra's algorithm.
      * @param type See Room.find
