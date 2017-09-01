@@ -113,6 +113,30 @@ interface GlobalControlLevel {
     progressTotal: number;
 }
 
+interface Shard {
+    /**
+     * The name of the shard.
+     *
+     * @type {string}
+     * @memberof Shard
+     */
+    name: string;
+    /**
+     * Currently always equals to `normal`.
+     *
+     * @type {"normal"}
+     * @memberof Shard
+     */
+    type: "normal";
+    /**
+     * Whether this shard belongs to the PTR.
+     *
+     * @type {boolean}
+     * @memberof Shard
+     */
+    ptr: boolean;
+}
+
 /**
  * An object containing information about your CPU usage.
  *
@@ -842,6 +866,10 @@ interface Game {
      * A hash containing all the rooms available to you with room names as hash keys.
      */
     rooms: { [roomName: string]: Room };
+    /**
+     * An object describing the world shard where your script is currently being executed in.
+     */
+    shard: Shard;
     /**
      * A hash containing all your spawns with spawn names as hash keys.
      */
