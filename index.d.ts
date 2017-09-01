@@ -2182,9 +2182,9 @@ declare class RoomVisual {
 
     /**
      * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
-     * @param roomName The room name.
+     * @param roomName The room name. If `undefined`, visuals will be posted to all rooms simultaneously.
      */
-    constructor(roomName: string);
+    constructor(roomName?: string);
 
     /**
      * Draw a line.
