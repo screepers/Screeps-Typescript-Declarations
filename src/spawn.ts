@@ -1,4 +1,22 @@
 // Updated 2016-02-05
+
+/**
+ * An object containing creep spawning options
+ */
+interface SpawnOpts {
+  /**
+   * Memory of the new creep. If provided, it will be immediately stored into Memory.creeps[name].
+   */
+  memory?: any;
+  /**
+   * Array of spawns/extensions from which to draw energy for the spawning process. Structures will be used according to the array order.
+   */
+  energyStructures?: Array<StructureExtension | StructureSpawn>;
+  /**
+   * If dryRun is true, the operation will only check if it is possible to create a creep.
+   */
+  dryRun?: boolean;
+}
 /**
  * Spawns are your colony centers. You can transfer energy into it and create new creeps using createCreep() method.
  */
@@ -29,12 +47,14 @@ interface StructureSpawn extends OwnedStructure {
     spawning: { name: string, needTime: number, remainingTime: number };
 
     /**
+     * @deprecated
      * Check if a creep can be created.
      * @param body An array describing the new creep’s body. Should contain 1 to 50 elements with one of these constants: WORK, MOVE, CARRY, ATTACK, RANGED_ATTACK, HEAL, TOUGH, CLAIM
      * @param name The name of a new creep. It should be unique creep name, i.e. the Game.creeps object should not contain another creep with the same name (hash key). If not defined, a random name will be generated.
      */
     canCreateCreep(body: string[], name?: string): number;
     /**
+     * @deprecated
      * Start the creep spawning process.
      * The name of a new creep or one of these error codes
      * ERR_NOT_OWNER	-1	You are not the owner of this spawn.
@@ -48,6 +68,22 @@ interface StructureSpawn extends OwnedStructure {
      * @param memory The memory of a new creep. If provided, it will be immediately stored into Memory.creeps[name].
      */
     createCreep(body: string[], name?: string, memory?: any): number | string;
+
+    /**
+     * Start the creep spawning process. The required energy amount can be withdrawn from all spawns and extensions in the room.
+     * @param body An array describing the new creep’s body. Should contain 1 to 50 elements with one of these constants: WORK, MOVE, CARRY, ATTACK, RANGED_ATTACK, HEAL, TOUGH, CLAIM
+     * @param name The name of a new creep. It should be unique creep name, i.e. the Game.creeps object should not contain another creep with the same name (hash key). If not defined, a random name will be generated.
+     * @param opts An object with additional options for the spawning process.
+     * @returns One of the following codes:
+     * OK	0 The operation has been scheduled successfully.
+     * ERR_NOT_OWNER	-1 You are not the owner of this spawn.
+     * ERR_NAME_EXISTS	-3 There is a creep with the same name already.
+     * ERR_BUSY	-4 The spawn is already in process of spawning another creep.
+     * ERR_NOT_ENOUGH_ENERGY	-6 The spawn and its extensions contain not enough energy to create a creep with the given body.
+     * ERR_INVALID_ARGS	-10 Body is not properly described or name was not provided.
+     * ERR_RCL_NOT_ENOUGH	-14 Your Room Controller level is insufficient to use this spawn.
+     */
+    spawnCreep(body: string[], name: string, opts? : SpawnOpts): number;
     /**
      * Destroy this spawn immediately.
      */
