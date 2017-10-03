@@ -85,6 +85,19 @@ interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix|LookAtResult[]
 }
 
+interface PointLike {
+    x: number;
+    y: number;
+}
+
+interface RoomPositionLike extends PointLike {
+    roomName: string;
+}
+
+interface RoomObjectLike {
+    pos: RoomPositionLike;
+}
+
 interface FindPathOpts {
     /**
      * Treat squares with creeps as walkable. Can be useful with too many moving creeps around or in some other cases. The default

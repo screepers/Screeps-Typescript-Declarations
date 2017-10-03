@@ -1,12 +1,7 @@
-declare class RoomVisual {
+interface RoomVisual {
     /** The name of the room. */
-    roomName: string;
-
-    /**
-     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
-     * @param roomName The room name.
-     */
-    constructor(roomName: string);
+    /** Undefined when this instance is not specific to any one room */
+    roomName?: string;
 
     /**
      * Draw a line.
@@ -26,7 +21,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    line(pos1: RoomPosition, pos2: RoomPosition, style?: LineStyle): RoomVisual;
+    line(pos1: PointLike, pos2: PointLike, style?: LineStyle): RoomVisual;
 
     /**
      * Draw a circle.
@@ -43,7 +38,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    circle(pos: RoomPosition, style?: CircleStyle): RoomVisual;
+    circle(pos: PointLike, style?: CircleStyle): RoomVisual;
 
     /**
      * Draw a rectangle.
@@ -64,7 +59,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    rect(topLeftPos: RoomPosition, width: number, height: number, style?: PolyStyle): RoomVisual;
+    rect(topLeftPos: PointLike, width: number, height: number, style?: PolyStyle): RoomVisual;
 
     /**
      * Draw a polygon.
@@ -72,7 +67,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    poly(points: [number, number][], style?: PolyStyle): RoomVisual;
+    poly(points: Array<[number, number] | PointLike>, style?: PolyStyle): RoomVisual;
 
     /**
      * Draw a text label.
@@ -91,7 +86,7 @@ declare class RoomVisual {
      * @param style The (optional) text style.
      * @returns The RoomVisual object, for chaining.
      */
-    text(text: string, pos: RoomPosition, style?: TextStyle): RoomVisual;
+    text(text: string, pos: PointLike, style?: TextStyle): RoomVisual;
 
     /**
      * Remove all visuals from the room.
@@ -105,6 +100,14 @@ declare class RoomVisual {
      * @returns The size of the visuals in bytes.
      */
     getSize(): number;
+}
+
+interface GlobalRoomVisual extends RoomVisual {
+    roomName: undefined;
+}
+
+interface RoomSpecificRoomVisual<TRoomName extends string> extends RoomVisual {
+    roomName: TRoomName;
 }
 
 interface LineStyle {
@@ -131,4 +134,15 @@ interface TextStyle {
     size?: number;
     align?: "center" | "left" | "right";
     opacity?: number;
+}
+
+interface RoomVisualConstructor {
+    /**
+     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
+     * @param roomName The room name.
+     */
+    new(roomName: string): RoomSpecificRoomVisual<typeof roomName>;
+
+    /** Create a new global RoomVisual instance */
+    new(): GlobalRoomVisual;
 }
