@@ -146,3 +146,5 @@ interface RoomVisualConstructor {
     /** Create a new global RoomVisual instance */
     new(): GlobalRoomVisual;
 }
+
+declare const RoomVisual: RoomVisualConstructor;
