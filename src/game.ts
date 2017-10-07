@@ -31,6 +31,10 @@ interface Game {
      */
     rooms: {[roomName: string]: Room};
     /**
+    * An object describing the world shard where your script is currently being executed in.
+    */
+    shard: Shard;
+    /**
      * A hash containing all your spawns with spawn names as hash keys.
      */
     spawns: {[spawnName: string]: Spawn};
