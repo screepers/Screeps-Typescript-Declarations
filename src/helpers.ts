@@ -85,6 +85,30 @@ interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix|LookAtResult[]
 }
 
+interface Shard {
+    /**
+    * The name of the shard.
+    *
+    * @type {string}
+    * @memberof Shard
+    */
+    name: string;
+    /**
+    * Currently always equals to `normal`.
+    *
+    * @type {"normal"}
+    * @memberof Shard
+    */
+    type: "normal";
+    /**
+    * Whether this shard belongs to the PTR.
+    *
+    * @type {boolean}
+    * @memberof Shard
+    */
+    ptr: boolean;
+}
+
 interface FindPathOpts {
     /**
      * Treat squares with creeps as walkable. Can be useful with too many moving creeps around or in some other cases. The default
