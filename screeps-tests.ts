@@ -1,0 +1,18 @@
+Game.constructionSites;
+Game.cpu;
+Game.creeps;
+Game.flags;
+Game.gcl;
+Game.map;
+Game.market;
+Game.resources;
+Game.rooms;
+Game.shard;
+Game.spawns;
+Game.structures;
+Game.time;
+Game.cpu.getUsed();
+Game.cpu.setShardLimits({shard0: 20, shard1: 10});
+Game.map.describeExits('W8N3');
+Game.map.getWorldSize();
+Game.map.isRoomAvailable('W8N3');
