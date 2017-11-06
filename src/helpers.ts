@@ -47,7 +47,7 @@ interface SignDefinition {
 }
 interface StoreDefinition {
     [resource: string]: number | undefined;
-    energy?: number;
+    energy: number;
     power?: number;
 }
 
@@ -85,6 +85,19 @@ interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix|LookAtResult[]
 }
 
+
+interface PointLike {
+    x: number;
+    y: number;
+}
+
+interface RoomPositionLike extends PointLike {
+    roomName: string;
+}
+
+interface RoomObjectLike {
+    pos: RoomPositionLike;
+}
 interface Shard {
     /**
     * The name of the shard.

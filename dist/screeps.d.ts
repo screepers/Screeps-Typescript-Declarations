@@ -30,7 +30,8 @@ declare const FIND_HOSTILE_CREEPS: 103;
 declare const FIND_SOURCES_ACTIVE: 104;
 declare const FIND_SOURCES: 105;
 declare const FIND_DROPPED_RESOURCES: 106;
-declare const FIND_DROPPED_ENERGY: 106;
+/** @deprecated FIND_DROPPED_ENERGY constant is considered deprecated and will be removed soon. Please use FIND_DROPPED_RESOURCES instead. */
+declare const FIND_DROPPED_ENERGY: typeof FIND_DROPPED_RESOURCES;
 declare const FIND_STRUCTURES: 107;
 declare const FIND_MY_STRUCTURES: 108;
 declare const FIND_HOSTILE_STRUCTURES: 109;
@@ -834,7 +835,7 @@ interface SignDefinition {
 }
 interface StoreDefinition {
     [resource: string]: number | undefined;
-    energy?: number;
+    energy: number;
     power?: number;
 }
 interface LookAtResultWithPos {
@@ -867,6 +868,16 @@ interface LookAtResult {
 }
 interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix | LookAtResult[];
+}
+interface PointLike {
+    x: number;
+    y: number;
+}
+interface RoomPositionLike extends PointLike {
+    roomName: string;
+}
+interface RoomObjectLike {
+    pos: RoomPositionLike;
 }
 interface Shard {
     /**
@@ -1192,19 +1203,27 @@ interface OrderFilter {
     remainingAmount?: number;
     price?: number;
 }
+interface RoomMemory {
+}
+interface FlagMemory {
+}
+interface SpawnMemory {
+}
+interface CreepMemory {
+}
 interface Memory {
     [name: string]: any;
     creeps: {
-        [name: string]: any;
+        [name: string]: CreepMemory;
     };
     flags: {
-        [name: string]: any;
+        [name: string]: FlagMemory;
     };
     rooms: {
-        [name: string]: any;
+        [name: string]: RoomMemory;
     };
     spawns: {
-        [name: string]: any;
+        [name: string]: SpawnMemory;
     };
 }
 /**
@@ -1669,14 +1688,10 @@ interface RoomPositionConstructor extends _Constructor<RoomPosition> {
     (x: number, y: number, roomName: string): RoomPosition;
 }
 declare const RoomPosition: RoomPositionConstructor;
-declare class RoomVisual {
+interface RoomVisual {
     /** The name of the room. */
-    roomName: string;
-    /**
-     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
-     * @param roomName The room name.
-     */
-    constructor(roomName: string);
+    /** Undefined when this instance is not specific to any one room */
+    roomName?: string;
     /**
      * Draw a line.
      * @param x1 The start X coordinate.
@@ -1694,7 +1709,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    line(pos1: RoomPosition, pos2: RoomPosition, style?: LineStyle): RoomVisual;
+    line(pos1: PointLike, pos2: PointLike, style?: LineStyle): RoomVisual;
     /**
      * Draw a circle.
      * @param x The X coordinate of the center.
@@ -1709,7 +1724,7 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    circle(pos: RoomPosition, style?: CircleStyle): RoomVisual;
+    circle(pos: PointLike, style?: CircleStyle): RoomVisual;
     /**
      * Draw a rectangle.
      * @param x The X coordinate of the top-left corner.
@@ -1728,14 +1743,14 @@ declare class RoomVisual {
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    rect(topLeftPos: RoomPosition, width: number, height: number, style?: PolyStyle): RoomVisual;
+    rect(topLeftPos: PointLike, width: number, height: number, style?: PolyStyle): RoomVisual;
     /**
      * Draw a polygon.
      * @param points An array of point coordinate arrays, i.e. [[0,0], [5,5], [5,10]].
      * @param style The (optional) style.
      * @returns The RoomVisual object, for chaining.
      */
-    poly(points: [number, number][], style?: PolyStyle): RoomVisual;
+    poly(points: Array<[number, number] | PointLike>, style?: PolyStyle): RoomVisual;
     /**
      * Draw a text label.
      * @param text The text message.
@@ -1752,7 +1767,7 @@ declare class RoomVisual {
      * @param style The (optional) text style.
      * @returns The RoomVisual object, for chaining.
      */
-    text(text: string, pos: RoomPosition, style?: TextStyle): RoomVisual;
+    text(text: string, pos: PointLike, style?: TextStyle): RoomVisual;
     /**
      * Remove all visuals from the room.
      * @returns The RoomVisual object, for chaining.
@@ -1764,6 +1779,12 @@ declare class RoomVisual {
      * @returns The size of the visuals in bytes.
      */
     getSize(): number;
+}
+interface GlobalRoomVisual extends RoomVisual {
+    roomName: undefined;
+}
+interface RoomSpecificRoomVisual<TRoomName extends string> extends RoomVisual {
+    roomName: TRoomName;
 }
 interface LineStyle {
     width?: number;
@@ -1787,6 +1808,16 @@ interface TextStyle {
     align?: "center" | "left" | "right";
     opacity?: number;
 }
+interface RoomVisualConstructor {
+    /**
+     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
+     * @param roomName The room name.
+     */
+    new (roomName: string): RoomSpecificRoomVisual<typeof roomName>;
+    /** Create a new global RoomVisual instance */
+    new (): GlobalRoomVisual;
+}
+declare const RoomVisual: RoomVisualConstructor;
 /**
  * An object representing the room in which your units and structures are in. It can be used to look around, find paths, etc. Every object in the room contains its linked Room instance in the room property.
  */
@@ -2573,7 +2604,7 @@ interface StructureTerminal extends OwnedStructure {
     /**
      * An object with the storage contents. Each object key is one of the RESOURCE_* constants, values are resources amounts.
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the storage can contain.
      */
@@ -2606,7 +2637,7 @@ interface StructureContainer extends Structure {
      * An object with the structure contents. Each object key is one of the RESOURCE_* constants, values are resources
      * amounts. Use _.sum(structure.store) to get the total amount of contents
      */
-    store: any;
+    store: StoreDefinition;
     /**
      * The total amount of resources the structure can contain.
      */
