@@ -356,6 +356,17 @@ declare const LOOK_NUKES: "nuke";
 declare const LOOK_TERRAIN: "terrain";
 declare const ORDER_SELL: "sell";
 declare const ORDER_BUY: "buy";
+declare const PORTAL_UNSTABLE: number;
+declare const PORTAL_MIN_TIMEOUT: number;
+declare const PORTAL_MAX_TIMEOUT: number;
+declare const POWER_BANK_RESPAWN_TIME: number;
+declare const INVADERS_ENERGY_GOAL: number;
+declare const SYSTEM_USERNAME: 'Screeps';
+declare const SIGN_NOVICE_AREA: 'A new Novice Area is being planned somewhere in this sector. Please make sure all important rooms are reserved.';
+declare const SIGN_RESPAWN_AREA: 'A new Respawn Area is being planned somewhere in this sector. Please make sure all important rooms are reserved.';
+declare const PORTAL_DECAY: number;
+declare const MARKET_FEE: number;
+declare const FLAGS_LIMIT: number;
 /**
  * A site of a structure which is currently under construction.
  */
