@@ -1,7 +1,8 @@
-/**
- * This file is Screeps API description file.
- * This might need some updates when Screeps publishes new features or changes it's existing API
- */
+// Type definitions for Screeps
+// Project: https://github.com/screepers/Screeps-Typescript-Declarations
+// Definitions by: Marko Sulamägi <https://github.com/MarkoSulamagi>
+//                 Nhan Ho <https://github.com/NhanHo>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare const OK: 0;
 declare const ERR_NOT_OWNER: -1;
