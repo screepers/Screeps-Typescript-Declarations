@@ -1,5 +1,5 @@
 // Type definitions for Screeps
-// Project: https://github.com/screeps/screeps
+// Project: https://github.com/screepers/Screeps-Typescript-Declarations
 // Definitions by: Marko Sulamägi <https://github.com/MarkoSulamagi>
 //                 Nhan Ho <https://github.com/NhanHo>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
