@@ -398,6 +398,7 @@ declare var Memory: Memory;
 declare var RawMemory: RawMemory;
 declare var Game: Game;
 declare var PathFinder: PathFinder;
+declare function gc(): void;
 declare type Controller = StructureController;
 declare type Extension = StructureExtension;
 declare type KeeperLair = StructureKeeperLair;
@@ -778,6 +779,18 @@ interface GlobalControlLevel {
     progress: number;
     progressTotal: number;
 }
+interface HeapStatistics {
+    total_heap_size: number;
+    total_heap_size_executable: number;
+    total_physical_size: number;
+    total_available_size: number;
+    used_heap_size: number;
+    heap_size_limit: number;
+    malloced_memory: number;
+    peak_malloced_memory: number;
+    does_zap_garbage: boolean;
+    externally_allocated_size: number;
+}
 interface CPU {
     limit: number;
     tickLimit: number;
@@ -786,6 +799,7 @@ interface CPU {
      * Get amount of CPU time used from the beginning of the current game tick. Always returns 0 in the Simulation mode.
      */
     getUsed(): number;
+    getHeapStatistics(): HeapStatistics;
 }
 /**
  * An array describing the creep’s body. Each element contains the following properties:

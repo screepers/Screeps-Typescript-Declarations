@@ -2,6 +2,7 @@ declare var Memory: Memory;
 declare var RawMemory: RawMemory;
 declare var Game:Game;
 declare var PathFinder: PathFinder;
+declare function gc(): void;
 type Controller= StructureController;
 type Extension = StructureExtension;
 type KeeperLair = StructureKeeperLair;
