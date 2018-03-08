@@ -225,7 +225,7 @@ interface Creep extends RoomObject {
      * @param resourceType The target One of the RESOURCE_* constants..
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      */
-    withdraw(target: Structure, resourceType: string, amount?: number): number;
+    withdraw(target: Structure|Tombstone, resourceType: string, amount?: number): number;
 }
 
 interface CreepConstructor extends _Constructor<Creep>, _ConstructorById<Creep> {

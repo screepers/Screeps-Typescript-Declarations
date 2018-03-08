@@ -79,6 +79,7 @@ interface LookAtResultWithPos {
     source?: Source;
     mineral?: Mineral;
     resource? : Resource;
+    tombstone?: Tombstone;
 }
 interface LookAtResult {
     type: string;
@@ -92,6 +93,7 @@ interface LookAtResult {
     terrain?: string;
     mineral?: Mineral;
     resource?: Resource;
+    tombstone?: Tombstone;
 }
 
 

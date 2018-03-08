@@ -42,6 +42,7 @@ declare const FIND_MY_CONSTRUCTION_SITES: 114;
 declare const FIND_HOSTILE_CONSTRUCTION_SITES: 115;
 declare const FIND_MINERALS: 116;
 declare const FIND_NUKES: 117;
+declare const FIND_TOMBSTONES: 118;
 declare const TOP: 1;
 declare const TOP_RIGHT: 2;
 declare const RIGHT: 3;
@@ -354,8 +355,10 @@ declare const LOOK_FLAGS: "flag";
 declare const LOOK_CONSTRUCTION_SITES: "constructionSite";
 declare const LOOK_NUKES: "nuke";
 declare const LOOK_TERRAIN: "terrain";
+declare const LOOK_TOMBSTONES: "tombstone";
 declare const ORDER_SELL: "sell";
 declare const ORDER_BUY: "buy";
+declare const TOMBSTONE_DECAY_PER_PART: 5;
 /**
  * A site of a structure which is currently under construction.
  */
@@ -642,7 +645,7 @@ interface Creep extends RoomObject {
      * @param resourceType The target One of the RESOURCE_* constants..
      * @param amount The amount of resources to be transferred. If omitted, all the available amount is used.
      */
-    withdraw(target: Structure, resourceType: string, amount?: number): number;
+    withdraw(target: Structure | Tombstone, resourceType: string, amount?: number): number;
 }
 interface CreepConstructor extends _Constructor<Creep>, _ConstructorById<Creep> {
 }
@@ -850,6 +853,7 @@ interface LookAtResultWithPos {
     source?: Source;
     mineral?: Mineral;
     resource?: Resource;
+    tombstone?: Tombstone;
 }
 interface LookAtResult {
     type: string;
@@ -863,6 +867,7 @@ interface LookAtResult {
     terrain?: string;
     mineral?: Mineral;
     resource?: Resource;
+    tombstone?: Tombstone;
 }
 interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix | LookAtResult[];
@@ -2657,3 +2662,14 @@ interface StructurePortal extends Structure {
 interface StructurePortalConstructor extends _Constructor<StructurePortal>, _ConstructorById<StructurePortal> {
 }
 declare const StructurePortal: StructurePortalConstructor;
+interface Tombstone extends RoomObject {
+    readonly prototype: Tombstone;
+    creep: Creep;
+    deathTime: number;
+    id: string;
+    store: StoreDefinition;
+    ticksToDecay: number;
+}
+interface TombstoneConstructor extends _Constructor<Tombstone>, _ConstructorById<Tombstone> {
+}
+declare const Tombstone: TombstoneConstructor;
