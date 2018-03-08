@@ -61,7 +61,7 @@ interface SignDefinition {
 }
 interface StoreDefinition {
     [resource: string]: number | undefined;
-    energy?: number;
+    energy: number;
     power?: number;
 }
 
@@ -97,6 +97,43 @@ interface LookAtResult {
 
 interface LookAtResultMatrix {
     [coord: number]: LookAtResultMatrix|LookAtResult[]
+}
+
+
+interface PointLike {
+    x: number;
+    y: number;
+}
+
+interface RoomPositionLike extends PointLike {
+    roomName: string;
+}
+
+interface RoomObjectLike {
+    pos: RoomPositionLike;
+}
+interface Shard {
+    /**
+    * The name of the shard.
+    *
+    * @type {string}
+    * @memberof Shard
+    */
+    name: string;
+    /**
+    * Currently always equals to `normal`.
+    *
+    * @type {"normal"}
+    * @memberof Shard
+    */
+    type: "normal";
+    /**
+    * Whether this shard belongs to the PTR.
+    *
+    * @type {boolean}
+    * @memberof Shard
+    */
+    ptr: boolean;
 }
 
 interface FindPathOpts {

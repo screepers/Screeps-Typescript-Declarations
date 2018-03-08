@@ -32,7 +32,10 @@ declare const FIND_HOSTILE_CREEPS: 103;
 declare const FIND_SOURCES_ACTIVE: 104;
 declare const FIND_SOURCES: 105;
 declare const FIND_DROPPED_RESOURCES: 106;
-declare const FIND_DROPPED_ENERGY: 106; // Yup, it's 106.
+
+/** @deprecated FIND_DROPPED_ENERGY constant is considered deprecated and will be removed soon. Please use FIND_DROPPED_RESOURCES instead. */
+declare const FIND_DROPPED_ENERGY: typeof FIND_DROPPED_RESOURCES;
+
 declare const FIND_STRUCTURES: 107;
 declare const FIND_MY_STRUCTURES: 108;
 declare const FIND_HOSTILE_STRUCTURES: 109;
@@ -395,3 +398,17 @@ declare const LOOK_TERRAIN: "terrain";
 
 declare const ORDER_SELL: "sell";
 declare const ORDER_BUY: "buy";
+
+declare const PORTAL_UNSTABLE: number;
+declare const PORTAL_MIN_TIMEOUT: number;
+declare const PORTAL_MAX_TIMEOUT: number;
+declare const POWER_BANK_RESPAWN_TIME: number;
+declare const INVADERS_ENERGY_GOAL: number;
+declare const SYSTEM_USERNAME: 'Screeps';
+declare const SIGN_NOVICE_AREA: 'A new Novice Area is being planned somewhere in this sector. Please make sure all important rooms are reserved.';
+declare const SIGN_RESPAWN_AREA: 'A new Respawn Area is being planned somewhere in this sector. Please make sure all important rooms are reserved.';
+
+
+declare const PORTAL_DECAY: number;
+declare const MARKET_FEE: number;
+declare const FLAGS_LIMIT: number;
