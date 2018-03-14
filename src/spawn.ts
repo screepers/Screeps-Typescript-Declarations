@@ -33,7 +33,7 @@ interface StructureSpawn extends OwnedStructure {
     /**
      * A shorthand to Memory.spawns[spawn.name]. You can use it for quick access the spawn’s specific memory data object.
      */
-    memory: any;
+    memory: SpawnMemory;
     /**
      * Spawn’s name. You choose the name upon creating a new spawn, and it cannot be changed later. This name is a hash key to access the spawn via the Game.spawns object.
      */
@@ -119,5 +119,7 @@ interface StructureSpawn extends OwnedStructure {
 
 interface StructureSpawnConstructor extends _Constructor<StructureSpawn>, _ConstructorById<StructureSpawn> {
 }
+
+interface SpawnMemory { }
 
 declare const StructureSpawn: StructureSpawnConstructor;
