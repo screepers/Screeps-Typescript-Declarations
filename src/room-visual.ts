@@ -1,12 +1,8 @@
-declare class RoomVisual {
+interface RoomVisual {
+    readonly prototype: RoomVisual;
+
     /** The name of the room. */
     roomName: string;
-
-    /**
-     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
-     * @param roomName The room name.
-     */
-    constructor(roomName: string);
 
     /**
      * Draw a line.
@@ -18,7 +14,7 @@ declare class RoomVisual {
      * @returns The RoomVisual object, for chaining.
      */
     line(x1: number, y1: number, x2: number, y2: number, style?: LineStyle): RoomVisual;
-    
+
     /**
      * Draw a line.
      * @param pos1 The start position object.
@@ -106,6 +102,15 @@ declare class RoomVisual {
      */
     getSize(): number;
 }
+
+interface RoomVisualConstructor extends _Constructor<RoomVisual>, _ConstructorById<RoomVisual> {
+    /**
+     * You can directly create new RoomVisual object in any room, even if it's invisible to your script.
+     * @param roomName The room name.
+     */
+    new(roomName: string): RoomVisual;
+}
+declare const RoomVisual: RoomVisualConstructor;
 
 interface LineStyle {
     width?: number;
