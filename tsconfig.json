@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "outFile": "./dist/screeps.ts",
-    "newLine": "LF"
+    "newLine": "lf"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
