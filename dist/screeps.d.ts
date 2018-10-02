@@ -833,7 +833,7 @@ interface SignDefinition {
 }
 interface StoreDefinition {
     [resource: string]: number | undefined;
-    energy?: number;
+    energy: number;
     power?: number;
 }
 interface LookAtResultWithPos {
