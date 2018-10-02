@@ -16,7 +16,13 @@ interface GameMap {
      * @param roomName The room name.
      * @returns The exits information or null if the room not found.
      */
-    describeExits(roomName: string): {"1"?: string, "3"?: string, "5"?: string, "7"?: string};
+    describeExits(roomName: string): {
+      [direction: number]: string | undefined;
+      readonly "1"?: string,
+      readonly "3"?: string,
+      readonly "5"?: string,
+      readonly "7"?: string
+    };
     /**
      * Find the exit direction from the given room en route to another room.
      * @param fromRoom Start room name or room object.
@@ -60,7 +66,7 @@ interface GameMap {
      * @param pos The position object.
      */
     getTerrainAt(pos: RoomPosition): string;
-    
+
     /**
      * Check if the room is available to move into.
      * @param roomName The room name.
